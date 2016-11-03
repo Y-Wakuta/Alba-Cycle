@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace AlbaCycle {
     class CycleEntity {
@@ -30,5 +31,14 @@ namespace AlbaCycle {
     /// </summary>
     public class filePath {
         public string pathName { get; set; }
+    }
+
+    public class CycleDatas {
+        public string Cadence { get; set; }
+        public string Speed { get; set; }
+        public string Watt { get; set; } 
+        public Stopwatch Timer { get; set; }
+        public string Voltage { get; set; }
+
     }
 }
