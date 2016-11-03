@@ -75,7 +75,7 @@ namespace AlbaCycle {
             comboBoxBaud.SelectedValue = "RATE";
             comboBoxBaud.DisplayMember = "NAME";
             bauditemsBindingSource.DataSource = baudList;
-            comboBoxBaud.SelectedIndex = 1;
+            comboBoxBaud.SelectedIndex = 2;
             #endregion
 
             #region グラフ設定
@@ -151,7 +151,8 @@ namespace AlbaCycle {
             serialPortCycle.Close();
         }
 
-        private void serialPortCycle_DataReceived(object sender, SerialDataReceivedEventArgs e) {
+        private async void serialPortCycle_DataReceived(object sender, SerialDataReceivedEventArgs e) {
+            //    MessageBox.Show("Data Received!");
             CycleDatas _cycleData = new CycleDatas();
             string data = null;
             sw = new Stopwatch();
@@ -160,42 +161,42 @@ namespace AlbaCycle {
             int data_num;
             int z_int;
             double z_double;
+            await Task.Run(() => {
+                try {
+                    data = serialPortCycle.ReadExisting();
+                } catch (Exception) {
+                    return;
+                }
+                //         sw.Stop();
+                //    if (sw.ElapsedMilliseconds > 5000)
+                //      serialPortCycle.DiscardInBuffer();
+                //   if (data.Count() == 4) {                            //ここで配列の要素数のフィルタを入れる。
+                char[] charData = data.ToCharArray();
+                for (data_num = 0, data_count = 0; data_count < charData.Count();) {
+                    if (data[data_count] == ';') {
+                        data_num++;
+                    }
+                    if (data_num == 6) {
+                        _cycleData.Voltage = data[data_count].ToString();
+                    }
+                    else if (data_num == 14) {
+                        _cycleData.Speed = data[data_count].ToString();
+                    }
+                    else if (data_num == 15) {
+                        z_int = (int)data[data_count - 1] + (int)data[data_count - 2] * 10 + (int)data[data_count - 3] * 100;
+                        if (data[data_count - 4] != '0') z_int *= -1;
+                        z_double = (double)z_int / 6; //角度補正前ふつうに
+                        _cycleData.Cadence = z_double.ToString();
+                    }
+                    data_count++;
+                    //       }
 
-            try {
-                data = serialPortCycle.ReadLine();
-            } catch (Exception) {
-                return;
-            }
-            sw.Stop();
-            if (sw.ElapsedMilliseconds > 5000)
-                serialPortCycle.DiscardInBuffer();
-
-            //   if (data.Count() == 4) {                            //ここで配列の要素数のフィルタを入れる。
-            char[] charData = data.ToCharArray();
-            for (data_num = 0, data_count = 0; data_count < charData.Count();) {
-                if (data[data_count] == ';') {
-                    data_num++;
+                    _cycleDataList.Add(_cycleData);
+                    saveData.Add(data);
                 }
-                if (data_num == 6) {
-                    _cycleData.Voltage = data[data_count].ToString();
-                }
-                else if (data_num == 14) {
-                    _cycleData.Speed = data[data_count].ToString();
-                }
-                else if (data_num == 15) {
-                    z_int = (int)data[data_count - 1] + (int)data[data_count - 2] * 10 + (int)data[data_count - 3] * 100;
-                    if (data[data_count - 4] != '0') z_int *= -1;
-                    z_double = (double)z_int / 6; //角度補正前ふつうに
-                    _cycleData.Cadence = z_double.ToString();
-                }
-                data_count++;
-                //       }
-
-                BeginInvoke(new DataHandler(ShowSerialDatas), data);
-                _cycleDataList.Add(_cycleData);
-                saveData.Add(data);
-                BeginInvoke(new Handler(showChart), _cycleData.Cadence, _cycleData.Watt, _cycleData.Speed);
-            }
+            });
+            BeginInvoke(new DataHandler(ShowSerialDatas), data);
+            BeginInvoke(new Handler(showChart), _cycleData.Cadence, _cycleData.Watt, _cycleData.Speed);
         }
 
         private void buttonNext_Click(object sender, EventArgs e) {
@@ -205,7 +206,7 @@ namespace AlbaCycle {
         }
 
         public void ShowSerialDatas(string _cData) {
-            textBoxSerialData.Text += _cData + Environment.NewLine;
+            textBoxSerialData.AppendText(_cData + Environment.NewLine);
         }
 
         private void buttonConnect_Click(object sender, EventArgs e) {

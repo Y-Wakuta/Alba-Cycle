@@ -24,18 +24,18 @@
         /// </summary>
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title3 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title4 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title5 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend6 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title6 = new System.Windows.Forms.DataVisualization.Charting.Title();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormCycle));
             this.labelWatt = new System.Windows.Forms.Label();
             this.labelCadence = new System.Windows.Forms.Label();
@@ -128,49 +128,50 @@
             // 
             // chartCadence
             // 
-            chartArea1.Name = "ChartArea1";
-            this.chartCadence.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.chartCadence.Legends.Add(legend1);
+            chartArea4.Name = "ChartArea1";
+            this.chartCadence.ChartAreas.Add(chartArea4);
+            legend4.Name = "Legend1";
+            this.chartCadence.Legends.Add(legend4);
             this.chartCadence.Location = new System.Drawing.Point(12, 6);
             this.chartCadence.Name = "chartCadence";
-            series1.BorderWidth = 4;
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series1.Color = System.Drawing.Color.Blue;
-            series1.Legend = "Legend1";
-            series1.Name = "Cadence";
-            this.chartCadence.Series.Add(series1);
+            series4.BorderWidth = 4;
+            series4.ChartArea = "ChartArea1";
+            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series4.Color = System.Drawing.Color.Blue;
+            series4.Legend = "Legend1";
+            series4.Name = "Cadence";
+            this.chartCadence.Series.Add(series4);
             this.chartCadence.Size = new System.Drawing.Size(1240, 599);
             this.chartCadence.TabIndex = 5;
             this.chartCadence.Text = "chart1";
-            title1.Name = "ケイデンス";
-            this.chartCadence.Titles.Add(title1);
+            title4.Name = "ケイデンス";
+            this.chartCadence.Titles.Add(title4);
             // 
             // chartWatt
             // 
-            chartArea2.Name = "ChartArea1";
-            this.chartWatt.ChartAreas.Add(chartArea2);
-            legend2.Name = "Legend1";
-            this.chartWatt.Legends.Add(legend2);
+            chartArea5.Name = "ChartArea1";
+            this.chartWatt.ChartAreas.Add(chartArea5);
+            legend5.Name = "Legend1";
+            this.chartWatt.Legends.Add(legend5);
             this.chartWatt.Location = new System.Drawing.Point(12, 611);
             this.chartWatt.Name = "chartWatt";
-            series2.BorderWidth = 4;
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            series2.Legend = "Legend1";
-            series2.Name = "Watt";
-            this.chartWatt.Series.Add(series2);
+            series5.BorderWidth = 4;
+            series5.ChartArea = "ChartArea1";
+            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series5.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            series5.Legend = "Legend1";
+            series5.Name = "Watt";
+            this.chartWatt.Series.Add(series5);
             this.chartWatt.Size = new System.Drawing.Size(2490, 540);
             this.chartWatt.TabIndex = 6;
             this.chartWatt.Text = "chart";
-            title2.Name = "Watt";
-            this.chartWatt.Titles.Add(title2);
+            title5.Name = "Watt";
+            this.chartWatt.Titles.Add(title5);
             // 
             // serialPortCycle
             // 
-            this.serialPortCycle.ReadBufferSize = 1500000;
+            this.serialPortCycle.ReadBufferSize = 15000000;
+            this.serialPortCycle.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPortCycle_DataReceived);
             // 
             // groupBoxSerialConfig
             // 
@@ -211,6 +212,7 @@
             this.buttonClose.TabIndex = 31;
             this.buttonClose.Text = "Close";
             this.buttonClose.UseVisualStyleBackColor = true;
+            this.buttonClose.Click += new System.EventHandler(this.buttonClose_Click);
             // 
             // buttonConnect
             // 
@@ -222,6 +224,7 @@
             this.buttonConnect.TabIndex = 29;
             this.buttonConnect.Text = "Connect";
             this.buttonConnect.UseVisualStyleBackColor = true;
+            this.buttonConnect.Click += new System.EventHandler(this.buttonConnect_Click);
             // 
             // comboBoxBaud
             // 
@@ -235,6 +238,8 @@
             this.comboBoxBaud.Size = new System.Drawing.Size(334, 32);
             this.comboBoxBaud.TabIndex = 3;
             this.comboBoxBaud.ValueMember = "RATE";
+            this.comboBoxBaud.SelectedIndexChanged += new System.EventHandler(this.comboBoxBaud_SelectedIndexChanged);
+            this.comboBoxBaud.TextChanged += new System.EventHandler(this.comboBoxBaud_TextChanged);
             // 
             // comboBoxPort
             // 
@@ -268,24 +273,24 @@
             // 
             // chartSpeed
             // 
-            chartArea3.Name = "ChartArea1";
-            this.chartSpeed.ChartAreas.Add(chartArea3);
-            legend3.Name = "Legend1";
-            this.chartSpeed.Legends.Add(legend3);
+            chartArea6.Name = "ChartArea1";
+            this.chartSpeed.ChartAreas.Add(chartArea6);
+            legend6.Name = "Legend1";
+            this.chartSpeed.Legends.Add(legend6);
             this.chartSpeed.Location = new System.Drawing.Point(1265, 6);
             this.chartSpeed.Name = "chartSpeed";
-            series3.BorderWidth = 4;
-            series3.ChartArea = "ChartArea1";
-            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series3.Color = System.Drawing.Color.Chartreuse;
-            series3.Legend = "Legend1";
-            series3.Name = "Speed";
-            this.chartSpeed.Series.Add(series3);
+            series6.BorderWidth = 4;
+            series6.ChartArea = "ChartArea1";
+            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series6.Color = System.Drawing.Color.Chartreuse;
+            series6.Legend = "Legend1";
+            series6.Name = "Speed";
+            this.chartSpeed.Series.Add(series6);
             this.chartSpeed.Size = new System.Drawing.Size(1237, 599);
             this.chartSpeed.TabIndex = 38;
             this.chartSpeed.Text = "chart1";
-            title3.Name = "ケイデンス";
-            this.chartSpeed.Titles.Add(title3);
+            title6.Name = "ケイデンス";
+            this.chartSpeed.Titles.Add(title6);
             // 
             // tabControl1
             // 
