@@ -11,8 +11,9 @@ namespace AlbaCycle {
     /// <summary>
     /// マクロを定義
     /// </summary>
-    public class Constants {
-      
+    static public class Constants {
+       static public int minDataPoolAmount = 400;
+       static public int maxDataPoolAmount = 5000;
     }
 
     /// <summary>
@@ -36,7 +37,7 @@ namespace AlbaCycle {
     public class CycleDatas {
         public string Cadence { get; set; }
         public string Speed { get; set; }
-        public string Watt { get; set; } 
+        public string Watt { get; set; }
         public Stopwatch Timer { get; set; }
         public string Voltage { get; set; }
 

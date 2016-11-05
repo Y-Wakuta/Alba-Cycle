@@ -24,24 +24,24 @@
         /// </summary>
         private void InitializeComponent() {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend4 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title4 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea5 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend5 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title5 = new System.Windows.Forms.DataVisualization.Charting.Title();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend6 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Title title6 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title1 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend2 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title2 = new System.Windows.Forms.DataVisualization.Charting.Title();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend3 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Title title3 = new System.Windows.Forms.DataVisualization.Charting.Title();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormCycle));
             this.labelWatt = new System.Windows.Forms.Label();
             this.labelCadence = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBoxCadence = new System.Windows.Forms.TextBox();
+            this.textBoxWatt = new System.Windows.Forms.TextBox();
             this.chartCadence = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.chartWatt = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.serialPortCycle = new System.IO.Ports.SerialPort(this.components);
@@ -57,10 +57,10 @@
             this.chartSpeed = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageFTP = new System.Windows.Forms.TabPage();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
+            this.buttonFreeRun = new System.Windows.Forms.Button();
+            this.buttonStartFTP = new System.Windows.Forms.Button();
+            this.labelTimer = new System.Windows.Forms.Label();
+            this.labelFTP = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.labelPhase = new System.Windows.Forms.Label();
@@ -68,6 +68,7 @@
             this.tabPageGraph = new System.Windows.Forms.TabPage();
             this.tabPageData = new System.Windows.Forms.TabPage();
             this.textBoxSerialData = new System.Windows.Forms.TextBox();
+            this.buttonGiveUp = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.chartCadence)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartWatt)).BeginInit();
             this.groupBoxSerialConfig.SuspendLayout();
@@ -108,65 +109,65 @@
             this.label1.TabIndex = 2;
             this.label1.Text = "回転数 :";
             // 
-            // textBox1
+            // textBoxCadence
             // 
-            this.textBox1.Font = new System.Drawing.Font("MS UI Gothic", 35F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.textBox1.Location = new System.Drawing.Point(1284, 40);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(268, 101);
-            this.textBox1.TabIndex = 3;
+            this.textBoxCadence.Font = new System.Drawing.Font("MS UI Gothic", 35F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.textBoxCadence.Location = new System.Drawing.Point(1284, 40);
+            this.textBoxCadence.Name = "textBoxCadence";
+            this.textBoxCadence.ReadOnly = true;
+            this.textBoxCadence.Size = new System.Drawing.Size(268, 101);
+            this.textBoxCadence.TabIndex = 3;
             // 
-            // textBox2
+            // textBoxWatt
             // 
-            this.textBox2.Font = new System.Drawing.Font("MS UI Gothic", 35F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.textBox2.Location = new System.Drawing.Point(1823, 40);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.ReadOnly = true;
-            this.textBox2.Size = new System.Drawing.Size(249, 101);
-            this.textBox2.TabIndex = 4;
+            this.textBoxWatt.Font = new System.Drawing.Font("MS UI Gothic", 35F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.textBoxWatt.Location = new System.Drawing.Point(1823, 40);
+            this.textBoxWatt.Name = "textBoxWatt";
+            this.textBoxWatt.ReadOnly = true;
+            this.textBoxWatt.Size = new System.Drawing.Size(249, 101);
+            this.textBoxWatt.TabIndex = 4;
             // 
             // chartCadence
             // 
-            chartArea4.Name = "ChartArea1";
-            this.chartCadence.ChartAreas.Add(chartArea4);
-            legend4.Name = "Legend1";
-            this.chartCadence.Legends.Add(legend4);
+            chartArea1.Name = "ChartArea1";
+            this.chartCadence.ChartAreas.Add(chartArea1);
+            legend1.Name = "Legend1";
+            this.chartCadence.Legends.Add(legend1);
             this.chartCadence.Location = new System.Drawing.Point(12, 6);
             this.chartCadence.Name = "chartCadence";
-            series4.BorderWidth = 4;
-            series4.ChartArea = "ChartArea1";
-            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series4.Color = System.Drawing.Color.Blue;
-            series4.Legend = "Legend1";
-            series4.Name = "Cadence";
-            this.chartCadence.Series.Add(series4);
+            series1.BorderWidth = 4;
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series1.Color = System.Drawing.Color.Blue;
+            series1.Legend = "Legend1";
+            series1.Name = "Cadence";
+            this.chartCadence.Series.Add(series1);
             this.chartCadence.Size = new System.Drawing.Size(1240, 599);
             this.chartCadence.TabIndex = 5;
             this.chartCadence.Text = "chart1";
-            title4.Name = "ケイデンス";
-            this.chartCadence.Titles.Add(title4);
+            title1.Name = "ケイデンス";
+            this.chartCadence.Titles.Add(title1);
             // 
             // chartWatt
             // 
-            chartArea5.Name = "ChartArea1";
-            this.chartWatt.ChartAreas.Add(chartArea5);
-            legend5.Name = "Legend1";
-            this.chartWatt.Legends.Add(legend5);
+            chartArea2.Name = "ChartArea1";
+            this.chartWatt.ChartAreas.Add(chartArea2);
+            legend2.Name = "Legend1";
+            this.chartWatt.Legends.Add(legend2);
             this.chartWatt.Location = new System.Drawing.Point(12, 611);
             this.chartWatt.Name = "chartWatt";
-            series5.BorderWidth = 4;
-            series5.ChartArea = "ChartArea1";
-            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series5.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
-            series5.Legend = "Legend1";
-            series5.Name = "Watt";
-            this.chartWatt.Series.Add(series5);
+            series2.BorderWidth = 4;
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series2.Color = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            series2.Legend = "Legend1";
+            series2.Name = "Watt";
+            this.chartWatt.Series.Add(series2);
             this.chartWatt.Size = new System.Drawing.Size(2490, 540);
             this.chartWatt.TabIndex = 6;
             this.chartWatt.Text = "chart";
-            title5.Name = "Watt";
-            this.chartWatt.Titles.Add(title5);
+            title2.Name = "Watt";
+            this.chartWatt.Titles.Add(title2);
             // 
             // serialPortCycle
             // 
@@ -273,24 +274,24 @@
             // 
             // chartSpeed
             // 
-            chartArea6.Name = "ChartArea1";
-            this.chartSpeed.ChartAreas.Add(chartArea6);
-            legend6.Name = "Legend1";
-            this.chartSpeed.Legends.Add(legend6);
+            chartArea3.Name = "ChartArea1";
+            this.chartSpeed.ChartAreas.Add(chartArea3);
+            legend3.Name = "Legend1";
+            this.chartSpeed.Legends.Add(legend3);
             this.chartSpeed.Location = new System.Drawing.Point(1265, 6);
             this.chartSpeed.Name = "chartSpeed";
-            series6.BorderWidth = 4;
-            series6.ChartArea = "ChartArea1";
-            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series6.Color = System.Drawing.Color.Chartreuse;
-            series6.Legend = "Legend1";
-            series6.Name = "Speed";
-            this.chartSpeed.Series.Add(series6);
+            series3.BorderWidth = 4;
+            series3.ChartArea = "ChartArea1";
+            series3.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series3.Color = System.Drawing.Color.Chartreuse;
+            series3.Legend = "Legend1";
+            series3.Name = "Speed";
+            this.chartSpeed.Series.Add(series3);
             this.chartSpeed.Size = new System.Drawing.Size(1237, 599);
             this.chartSpeed.TabIndex = 38;
             this.chartSpeed.Text = "chart1";
-            title6.Name = "ケイデンス";
-            this.chartSpeed.Titles.Add(title6);
+            title3.Name = "ケイデンス";
+            this.chartSpeed.Titles.Add(title3);
             // 
             // tabControl1
             // 
@@ -306,10 +307,11 @@
             // tabPageFTP
             // 
             this.tabPageFTP.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.tabPageFTP.Controls.Add(this.button2);
-            this.tabPageFTP.Controls.Add(this.button1);
-            this.tabPageFTP.Controls.Add(this.label4);
-            this.tabPageFTP.Controls.Add(this.label6);
+            this.tabPageFTP.Controls.Add(this.buttonGiveUp);
+            this.tabPageFTP.Controls.Add(this.buttonFreeRun);
+            this.tabPageFTP.Controls.Add(this.buttonStartFTP);
+            this.tabPageFTP.Controls.Add(this.labelTimer);
+            this.tabPageFTP.Controls.Add(this.labelFTP);
             this.tabPageFTP.Controls.Add(this.label5);
             this.tabPageFTP.Controls.Add(this.label3);
             this.tabPageFTP.Controls.Add(this.labelPhase);
@@ -321,47 +323,49 @@
             this.tabPageFTP.TabIndex = 1;
             this.tabPageFTP.Text = "FTP";
             // 
-            // button2
+            // buttonFreeRun
             // 
-            this.button2.Font = new System.Drawing.Font("メイリオ", 28.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.button2.Location = new System.Drawing.Point(824, 668);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(671, 198);
-            this.button2.TabIndex = 8;
-            this.button2.Text = "FREE RUN";
-            this.button2.UseVisualStyleBackColor = true;
+            this.buttonFreeRun.Font = new System.Drawing.Font("メイリオ", 28.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.buttonFreeRun.Location = new System.Drawing.Point(824, 668);
+            this.buttonFreeRun.Name = "buttonFreeRun";
+            this.buttonFreeRun.Size = new System.Drawing.Size(671, 198);
+            this.buttonFreeRun.TabIndex = 8;
+            this.buttonFreeRun.Text = "FREE RUN";
+            this.buttonFreeRun.UseVisualStyleBackColor = true;
+            this.buttonFreeRun.Click += new System.EventHandler(this.buttonFreeRun_Click);
             // 
-            // button1
+            // buttonStartFTP
             // 
-            this.button1.Font = new System.Drawing.Font("メイリオ", 28.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.button1.Location = new System.Drawing.Point(83, 668);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(671, 198);
-            this.button1.TabIndex = 7;
-            this.button1.Text = "START FTP";
-            this.button1.UseVisualStyleBackColor = true;
+            this.buttonStartFTP.Font = new System.Drawing.Font("メイリオ", 28.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.buttonStartFTP.Location = new System.Drawing.Point(83, 668);
+            this.buttonStartFTP.Name = "buttonStartFTP";
+            this.buttonStartFTP.Size = new System.Drawing.Size(671, 198);
+            this.buttonStartFTP.TabIndex = 7;
+            this.buttonStartFTP.Text = "START FTP";
+            this.buttonStartFTP.UseVisualStyleBackColor = true;
+            this.buttonStartFTP.Click += new System.EventHandler(this.buttonStartFTP_Click);
             // 
-            // label4
+            // labelTimer
             // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("メイリオ", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label4.ForeColor = System.Drawing.Color.Coral;
-            this.label4.Location = new System.Drawing.Point(366, 177);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(854, 144);
-            this.label4.TabIndex = 6;
-            this.label4.Text = "Waiting For Start";
+            this.labelTimer.AutoSize = true;
+            this.labelTimer.Font = new System.Drawing.Font("メイリオ", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.labelTimer.ForeColor = System.Drawing.Color.Coral;
+            this.labelTimer.Location = new System.Drawing.Point(366, 177);
+            this.labelTimer.Name = "labelTimer";
+            this.labelTimer.Size = new System.Drawing.Size(854, 144);
+            this.labelTimer.TabIndex = 6;
+            this.labelTimer.Text = "Waiting For Start";
             // 
-            // label6
+            // labelFTP
             // 
-            this.label6.AutoSize = true;
-            this.label6.Font = new System.Drawing.Font("メイリオ", 72F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label6.ForeColor = System.Drawing.Color.Coral;
-            this.label6.Location = new System.Drawing.Point(493, 358);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(1711, 288);
-            this.label6.TabIndex = 5;
-            this.label6.Text = "Waiting For Start";
+            this.labelFTP.AutoSize = true;
+            this.labelFTP.Font = new System.Drawing.Font("メイリオ", 72F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.labelFTP.ForeColor = System.Drawing.Color.Coral;
+            this.labelFTP.Location = new System.Drawing.Point(389, 358);
+            this.labelFTP.Name = "labelFTP";
+            this.labelFTP.Size = new System.Drawing.Size(1711, 288);
+            this.labelFTP.TabIndex = 5;
+            this.labelFTP.Text = "Waiting For Start";
             // 
             // label5
             // 
@@ -437,6 +441,17 @@
             this.textBoxSerialData.Size = new System.Drawing.Size(2064, 1063);
             this.textBoxSerialData.TabIndex = 0;
             // 
+            // buttonGiveUp
+            // 
+            this.buttonGiveUp.Font = new System.Drawing.Font("メイリオ", 28.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.buttonGiveUp.Location = new System.Drawing.Point(1549, 668);
+            this.buttonGiveUp.Name = "buttonGiveUp";
+            this.buttonGiveUp.Size = new System.Drawing.Size(671, 198);
+            this.buttonGiveUp.TabIndex = 9;
+            this.buttonGiveUp.Text = "Give Up";
+            this.buttonGiveUp.UseVisualStyleBackColor = true;
+            this.buttonGiveUp.Click += new System.EventHandler(this.buttonGiveUp_Click);
+            // 
             // FormCycle
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
@@ -447,8 +462,8 @@
             this.Controls.Add(this.buttonConfig);
             this.Controls.Add(this.textBoxTimer);
             this.Controls.Add(this.groupBoxSerialConfig);
-            this.Controls.Add(this.textBox2);
-            this.Controls.Add(this.textBox1);
+            this.Controls.Add(this.textBoxWatt);
+            this.Controls.Add(this.textBoxCadence);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.labelCadence);
             this.Controls.Add(this.labelWatt);
@@ -480,8 +495,8 @@
         private System.Windows.Forms.Label labelWatt;
         private System.Windows.Forms.Label labelCadence;
         private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.TextBox textBoxCadence;
+        private System.Windows.Forms.TextBox textBoxWatt;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartCadence;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartWatt;
         private System.IO.Ports.SerialPort serialPortCycle;
@@ -502,12 +517,13 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label labelPhase;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button buttonFreeRun;
+        private System.Windows.Forms.Button buttonStartFTP;
+        private System.Windows.Forms.Label labelTimer;
+        private System.Windows.Forms.Label labelFTP;
         private System.Windows.Forms.TabPage tabPageData;
         private System.Windows.Forms.TextBox textBoxSerialData;
+        private System.Windows.Forms.Button buttonGiveUp;
     }
 }
 

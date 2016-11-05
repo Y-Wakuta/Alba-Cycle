@@ -14,19 +14,19 @@ using System.Diagnostics;
 
 namespace AlbaCycle {
 
-    delegate void Handler(string str0, string str1, string str2);
-    delegate void DataHandler(string _sDatas);
-
     public partial class FormCycle : Form {
 
-        Timer time = new Timer();
         DateTime start = DateTime.Now;
         Stopwatch sw;
+        Stopwatch generalTimer;
         List<string> saveData = new List<string>();
         List<CycleDatas> _cycleDataList = new List<CycleDatas>();
         CycleRoutine Routine = new CycleRoutine();
-
-
+        CycleEntity Entity = new CycleEntity();
+        string data = null;
+        bool giveupFlag = false;
+        Stopwatch FTPTimer;
+        Timer eventTimer;
 
         public FormCycle() {
             InitializeComponent();
@@ -86,7 +86,13 @@ namespace AlbaCycle {
             chartWatt.ChartAreas[0].AxisX.Title = "Time[s]";
             chartWatt.ChartAreas[0].AxisY.Title = "Watt[W]";
 
+            chartSpeed.ChartAreas[0].AxisX.Title = "Time[s]";
+            chartSpeed.ChartAreas[0].AxisY.Title = "Speed[m/s]";
+
             #endregion
+
+            buttonStartFTP.Enabled = false;
+            buttonFreeRun.Enabled = false;
         }
 
         private void comboBoxBaud_TextChanged(object sender, EventArgs e) {
@@ -104,31 +110,27 @@ namespace AlbaCycle {
         /// </summary>
         /// <param name="datas">配列化した受信データ</param>
         /// <param name="i"></param>
-        private void showChart(string Cadence, string Watt, string Speed) {
+        private void ShowChart(CycleDatas cData) {
             DateTime end = DateTime.Now;
             TimeSpan time = end - start;
-            int xValue = (int)time.TotalSeconds;
+            int xvalue = (int)time.TotalSeconds;
 
             #region グラフ設定
-            try {
-                chartCadence.Series["Cadence"].Points.AddXY(xValue, double.Parse(Cadence));
-                chartWatt.Series["Watt"].Points.AddXY(xValue, double.Parse(Watt));
-                chartSpeed.Series["Speed"].Points.AddXY(xValue, double.Parse(Speed));
-            } catch (Exception) {
-                return;
+            if (cData.Cadence != null && cData.Speed != null && cData.Watt != null && cData.Timer != null) {
+                chartWatt.Series["Watt"].Points.AddXY(xvalue, double.Parse(cData.Watt));
+                chartSpeed.Series["Speed"].Points.AddXY(xvalue, double.Parse(cData.Speed));
+                chartCadence.Series["Cadence"].Points.AddXY(xvalue, double.Parse(cData.Cadence));
+
+                chartCadence.ChartAreas[0].AxisX.Maximum = time.TotalSeconds;
+                chartCadence.ChartAreas[0].AxisX.Minimum = time.TotalSeconds - 30;
+
+                chartWatt.ChartAreas[0].AxisX.Maximum = time.TotalSeconds;
+                chartWatt.ChartAreas[0].AxisX.Minimum = time.TotalSeconds - 30;
+
+                chartSpeed.ChartAreas[0].AxisX.Maximum = time.TotalSeconds;
+                chartSpeed.ChartAreas[0].AxisX.Maximum = time.TotalSeconds - 30;
+                #endregion
             }
-
-            chartCadence.ChartAreas[0].AxisX.Maximum = time.TotalSeconds;
-            chartCadence.ChartAreas[0].AxisX.Minimum = 0;
-
-            chartWatt.ChartAreas[0].AxisX.Maximum = time.TotalSeconds;
-            chartWatt.ChartAreas[0].AxisX.Minimum = 0;
-
-            chartSpeed.ChartAreas[0].AxisX.Maximum = time.TotalSeconds;
-            chartSpeed.ChartAreas[0].AxisX.Maximum = 0;
-
-            #endregion
-
         }
 
         /// <summary>
@@ -152,51 +154,54 @@ namespace AlbaCycle {
         }
 
         private async void serialPortCycle_DataReceived(object sender, SerialDataReceivedEventArgs e) {
-            //    MessageBox.Show("Data Received!");
-            CycleDatas _cycleData = new CycleDatas();
-            string data = null;
             sw = new Stopwatch();
             sw.Start();
-            int data_count;
-            int data_num;
-            int z_int;
-            double z_double;
+            List<CycleDatas> tempCycleDataList = new List<CycleDatas>();
+
             await Task.Run(() => {
                 try {
-                    data = serialPortCycle.ReadExisting();
+                    data += serialPortCycle.ReadExisting();
                 } catch (Exception) {
                     return;
                 }
-                //         sw.Stop();
-                //    if (sw.ElapsedMilliseconds > 5000)
-                //      serialPortCycle.DiscardInBuffer();
-                //   if (data.Count() == 4) {                            //ここで配列の要素数のフィルタを入れる。
-                char[] charData = data.ToCharArray();
-                for (data_num = 0, data_count = 0; data_count < charData.Count();) {
-                    if (data[data_count] == ';') {
-                        data_num++;
-                    }
-                    if (data_num == 6) {
-                        _cycleData.Voltage = data[data_count].ToString();
-                    }
-                    else if (data_num == 14) {
-                        _cycleData.Speed = data[data_count].ToString();
-                    }
-                    else if (data_num == 15) {
-                        z_int = (int)data[data_count - 1] + (int)data[data_count - 2] * 10 + (int)data[data_count - 3] * 100;
-                        if (data[data_count - 4] != '0') z_int *= -1;
-                        z_double = (double)z_int / 6; //角度補正前ふつうに
-                        _cycleData.Cadence = z_double.ToString();
-                    }
-                    data_count++;
-                    //       }
-
-                    _cycleDataList.Add(_cycleData);
-                    saveData.Add(data);
-                }
             });
-            BeginInvoke(new DataHandler(ShowSerialDatas), data);
-            BeginInvoke(new Handler(showChart), _cycleData.Cadence, _cycleData.Watt, _cycleData.Speed);
+
+            sw.Stop();
+
+            //受信に時間がかかりすぎた場合はbufferを削除します。（いらないかも）
+            if (sw.ElapsedMilliseconds > 5000)
+                serialPortCycle.DiscardInBuffer();
+
+            //データが短すぎるもしくは長すぎる場合は、returnしてdataの中身を調整します。
+            if (data.Length < Constants.minDataPoolAmount) {
+                return;
+            } else if (data.Length > Constants.maxDataPoolAmount) {
+                data = null;
+                return;
+            }
+            string[] tempDataLines = data.Trim().Replace(";\r\n;", "\n").Split('\n');
+            List<string> dataLines = new List<string>();
+            foreach (var dataMem in tempDataLines) {
+                if (dataMem.Length > 20)
+                    dataLines.Add(dataMem);
+            }
+
+            foreach (var dataLine in dataLines) {
+                CycleDatas _cycleData = new CycleDatas();
+                string[] datas = dataLine.Trim().Split(';');
+                if (datas.Count() == 14) {
+                    _cycleData.Voltage = datas[5];
+                    _cycleData.Speed = datas[13];
+                    _cycleData.Cadence = (double.Parse(datas[13]) / 6).ToString();
+                    _cycleData.Watt = Routine.CadenceToWatt((double.Parse(datas[13]) / 6)).ToString();
+                    _cycleData.Timer = generalTimer;
+                    _cycleDataList.Add(_cycleData);
+                    tempCycleDataList.Add(_cycleData);
+                }
+                BeginInvoke((MethodInvoker)(() => ShowSerialDatas(data)));
+                BeginInvoke((MethodInvoker)(() => ShowCycleData(_cycleData)));
+                //   BeginInvoke((MethodInvoker)(() => ShowChart(_cycleData)));
+            }
         }
 
         private void buttonNext_Click(object sender, EventArgs e) {
@@ -209,9 +214,19 @@ namespace AlbaCycle {
             textBoxSerialData.AppendText(_cData + Environment.NewLine);
         }
 
+        public void ShowCycleData(CycleDatas cData) {
+            if (cData.Cadence != null && cData.Speed != null && cData.Watt != null && cData.Timer != null) {
+                textBoxCadence.Text = cData.Cadence;
+                textBoxWatt.Text = cData.Watt;
+                textBoxTimer.Text = (cData.Timer.ElapsedMilliseconds / 1000.0).ToString();
+            }
+        }
+
         private void buttonConnect_Click(object sender, EventArgs e) {
-            MessageBox.Show("jfkdsa;l");
+
             if (serialPortCycle.IsOpen == false) {
+                generalTimer = new Stopwatch();
+                generalTimer.Start();
                 try {
                     serialPortCycle.Open();
                     serialPortCycle.DataReceived += new SerialDataReceivedEventHandler(serialPortCycle_DataReceived);
@@ -226,6 +241,8 @@ namespace AlbaCycle {
                 buttonClose.Enabled = true;
                 buttonNext.Enabled = false;
             }
+            buttonStartFTP.Enabled = true;
+            buttonFreeRun.Enabled = true;
         }
 
         private void buttonClose_Click(object sender, EventArgs e) {
@@ -236,6 +253,57 @@ namespace AlbaCycle {
                 buttonNext.Enabled = true;
                 buttonClose.Enabled = false;
             }
+        }
+
+        private void buttonStartFTP_Click(object sender, EventArgs e) {
+            giveupFlag = false;
+            FTPTimer = new Stopwatch();
+            FTPTimer.Start();
+            InitializeTimer();
+            buttonStartFTP.Enabled = false;
+            buttonFreeRun.Enabled = false;
+        }
+
+        public void InitializeTimer() {
+            eventTimer = new Timer();
+            eventTimer.Tick += new EventHandler(this.OnTick_Timer);
+            eventTimer.Interval = 500;
+            eventTimer.Start();
+        }
+
+        public void OnTick_Timer(object sender, EventArgs e) {
+            if (FTPTimer.ElapsedMilliseconds / 1000.0 < 55 * 60 || !giveupFlag) {
+                double TimeSecond = FTPTimer.ElapsedMilliseconds / 1000.0;
+                labelTimer.Text = TimeSecond.ToString();
+                if (TimeSecond < 10 * 60) {
+                    labelPhase.Text = "Warm up";
+                } else if (10 * 60 <= TimeSecond && TimeSecond < 15 * 60) {
+                    labelPhase.Text = "Pre Test";
+
+                } else if (15 * 60 <= TimeSecond && TimeSecond < 25 * 60) {
+                    labelPhase.Text = "Rest";
+                } else if (25 * 60 <= TimeSecond && TimeSecond < 45 * 60) {
+                    labelPhase.Text = "Test";
+                } else if (45 * 60 <= TimeSecond && TimeSecond / 1000.0 < 55 * 60) {
+                    labelPhase.Text = "Rest";
+                } else {
+                    labelPhase.Text = "Waiting For Start";
+                }
+                System.Threading.Thread.Sleep(50);
+            }
+        }
+
+        private void buttonFreeRun_Click(object sender, EventArgs e) {
+            giveupFlag = false;
+            buttonFreeRun.Enabled = false;
+            buttonStartFTP.Enabled = false;
+        }
+
+        private void buttonGiveUp_Click(object sender, EventArgs e) {
+            giveupFlag = true;
+            eventTimer.Stop();
+            buttonStartFTP.Enabled = true;
+            buttonFreeRun.Enabled = true;
         }
     }
 }
