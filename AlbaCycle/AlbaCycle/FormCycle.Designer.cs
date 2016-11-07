@@ -53,10 +53,10 @@
             this.bauditemsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.comboBoxPort = new System.Windows.Forms.ComboBox();
             this.textBoxTimer = new System.Windows.Forms.TextBox();
-            this.buttonConfig = new System.Windows.Forms.Button();
             this.chartSpeed = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageFTP = new System.Windows.Forms.TabPage();
+            this.buttonGiveUp = new System.Windows.Forms.Button();
             this.buttonFreeRun = new System.Windows.Forms.Button();
             this.buttonStartFTP = new System.Windows.Forms.Button();
             this.labelTimer = new System.Windows.Forms.Label();
@@ -68,7 +68,8 @@
             this.tabPageGraph = new System.Windows.Forms.TabPage();
             this.tabPageData = new System.Windows.Forms.TabPage();
             this.textBoxSerialData = new System.Windows.Forms.TextBox();
-            this.buttonGiveUp = new System.Windows.Forms.Button();
+            this.comboBoxSelectLoad = new System.Windows.Forms.ComboBox();
+            this.bindingSourceBaudRate = new System.Windows.Forms.BindingSource(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.chartCadence)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartWatt)).BeginInit();
             this.groupBoxSerialConfig.SuspendLayout();
@@ -78,15 +79,16 @@
             this.tabPageFTP.SuspendLayout();
             this.tabPageGraph.SuspendLayout();
             this.tabPageData.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceBaudRate)).BeginInit();
             this.SuspendLayout();
             // 
             // labelWatt
             // 
             this.labelWatt.AutoSize = true;
-            this.labelWatt.Font = new System.Drawing.Font("メイリオ", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.labelWatt.Location = new System.Drawing.Point(1558, 55);
+            this.labelWatt.Font = new System.Drawing.Font("メイリオ", 16F);
+            this.labelWatt.Location = new System.Drawing.Point(1617, 69);
             this.labelWatt.Name = "labelWatt";
-            this.labelWatt.Size = new System.Drawing.Size(259, 72);
+            this.labelWatt.Size = new System.Drawing.Size(233, 65);
             this.labelWatt.TabIndex = 0;
             this.labelWatt.Text = "ワット数 :";
             // 
@@ -102,17 +104,17 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("メイリオ", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label1.Location = new System.Drawing.Point(1067, 55);
+            this.label1.Font = new System.Drawing.Font("メイリオ", 16F);
+            this.label1.Location = new System.Drawing.Point(1138, 61);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(211, 72);
+            this.label1.Size = new System.Drawing.Size(190, 65);
             this.label1.TabIndex = 2;
             this.label1.Text = "回転数 :";
             // 
             // textBoxCadence
             // 
             this.textBoxCadence.Font = new System.Drawing.Font("MS UI Gothic", 35F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.textBoxCadence.Location = new System.Drawing.Point(1284, 40);
+            this.textBoxCadence.Location = new System.Drawing.Point(1334, 40);
             this.textBoxCadence.Name = "textBoxCadence";
             this.textBoxCadence.ReadOnly = true;
             this.textBoxCadence.Size = new System.Drawing.Size(268, 101);
@@ -121,7 +123,7 @@
             // textBoxWatt
             // 
             this.textBoxWatt.Font = new System.Drawing.Font("MS UI Gothic", 35F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.textBoxWatt.Location = new System.Drawing.Point(1823, 40);
+            this.textBoxWatt.Location = new System.Drawing.Point(1856, 40);
             this.textBoxWatt.Name = "textBoxWatt";
             this.textBoxWatt.ReadOnly = true;
             this.textBoxWatt.Size = new System.Drawing.Size(249, 101);
@@ -186,7 +188,7 @@
             this.groupBoxSerialConfig.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBoxSerialConfig.Name = "groupBoxSerialConfig";
             this.groupBoxSerialConfig.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.groupBoxSerialConfig.Size = new System.Drawing.Size(868, 153);
+            this.groupBoxSerialConfig.Size = new System.Drawing.Size(817, 153);
             this.groupBoxSerialConfig.TabIndex = 35;
             this.groupBoxSerialConfig.TabStop = false;
             this.groupBoxSerialConfig.Text = "シリアル設定";
@@ -194,7 +196,7 @@
             // buttonNext
             // 
             this.buttonNext.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.buttonNext.Location = new System.Drawing.Point(701, 47);
+            this.buttonNext.Location = new System.Drawing.Point(647, 47);
             this.buttonNext.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonNext.Name = "buttonNext";
             this.buttonNext.Size = new System.Drawing.Size(159, 76);
@@ -206,7 +208,7 @@
             // buttonClose
             // 
             this.buttonClose.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.buttonClose.Location = new System.Drawing.Point(531, 45);
+            this.buttonClose.Location = new System.Drawing.Point(477, 46);
             this.buttonClose.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonClose.Name = "buttonClose";
             this.buttonClose.Size = new System.Drawing.Size(162, 76);
@@ -218,7 +220,7 @@
             // buttonConnect
             // 
             this.buttonConnect.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.buttonConnect.Location = new System.Drawing.Point(361, 45);
+            this.buttonConnect.Location = new System.Drawing.Point(307, 46);
             this.buttonConnect.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonConnect.Name = "buttonConnect";
             this.buttonConnect.Size = new System.Drawing.Size(162, 76);
@@ -236,7 +238,7 @@
             this.comboBoxBaud.Location = new System.Drawing.Point(7, 91);
             this.comboBoxBaud.Margin = new System.Windows.Forms.Padding(2);
             this.comboBoxBaud.Name = "comboBoxBaud";
-            this.comboBoxBaud.Size = new System.Drawing.Size(334, 32);
+            this.comboBoxBaud.Size = new System.Drawing.Size(294, 32);
             this.comboBoxBaud.TabIndex = 3;
             this.comboBoxBaud.ValueMember = "RATE";
             this.comboBoxBaud.SelectedIndexChanged += new System.EventHandler(this.comboBoxBaud_SelectedIndexChanged);
@@ -244,13 +246,16 @@
             // 
             // comboBoxPort
             // 
+            this.comboBoxPort.DataSource = this.bindingSourceBaudRate;
+            this.comboBoxPort.DisplayMember = "NAME";
             this.comboBoxPort.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxPort.FormattingEnabled = true;
             this.comboBoxPort.Location = new System.Drawing.Point(7, 43);
             this.comboBoxPort.Margin = new System.Windows.Forms.Padding(2);
             this.comboBoxPort.Name = "comboBoxPort";
-            this.comboBoxPort.Size = new System.Drawing.Size(334, 32);
+            this.comboBoxPort.Size = new System.Drawing.Size(294, 32);
             this.comboBoxPort.TabIndex = 2;
+            this.comboBoxPort.ValueMember = "RATE";
             // 
             // textBoxTimer
             // 
@@ -260,17 +265,6 @@
             this.textBoxTimer.ReadOnly = true;
             this.textBoxTimer.Size = new System.Drawing.Size(413, 141);
             this.textBoxTimer.TabIndex = 36;
-            // 
-            // buttonConfig
-            // 
-            this.buttonConfig.Font = new System.Drawing.Font("メイリオ", 16.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.buttonConfig.Location = new System.Drawing.Point(899, 40);
-            this.buttonConfig.Name = "buttonConfig";
-            this.buttonConfig.Size = new System.Drawing.Size(162, 113);
-            this.buttonConfig.TabIndex = 37;
-            this.buttonConfig.Text = "設定";
-            this.buttonConfig.UseVisualStyleBackColor = true;
-            this.buttonConfig.Click += new System.EventHandler(this.buttonConfig_Click);
             // 
             // chartSpeed
             // 
@@ -322,6 +316,17 @@
             this.tabPageFTP.Size = new System.Drawing.Size(2517, 1154);
             this.tabPageFTP.TabIndex = 1;
             this.tabPageFTP.Text = "FTP";
+            // 
+            // buttonGiveUp
+            // 
+            this.buttonGiveUp.Font = new System.Drawing.Font("メイリオ", 28.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.buttonGiveUp.Location = new System.Drawing.Point(1549, 668);
+            this.buttonGiveUp.Name = "buttonGiveUp";
+            this.buttonGiveUp.Size = new System.Drawing.Size(671, 198);
+            this.buttonGiveUp.TabIndex = 9;
+            this.buttonGiveUp.Text = "Give Up";
+            this.buttonGiveUp.UseVisualStyleBackColor = true;
+            this.buttonGiveUp.Click += new System.EventHandler(this.buttonGiveUp_Click);
             // 
             // buttonFreeRun
             // 
@@ -441,16 +446,19 @@
             this.textBoxSerialData.Size = new System.Drawing.Size(2064, 1063);
             this.textBoxSerialData.TabIndex = 0;
             // 
-            // buttonGiveUp
+            // comboBoxSelectLoad
             // 
-            this.buttonGiveUp.Font = new System.Drawing.Font("メイリオ", 28.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.buttonGiveUp.Location = new System.Drawing.Point(1549, 668);
-            this.buttonGiveUp.Name = "buttonGiveUp";
-            this.buttonGiveUp.Size = new System.Drawing.Size(671, 198);
-            this.buttonGiveUp.TabIndex = 9;
-            this.buttonGiveUp.Text = "Give Up";
-            this.buttonGiveUp.UseVisualStyleBackColor = true;
-            this.buttonGiveUp.Click += new System.EventHandler(this.buttonGiveUp_Click);
+            this.comboBoxSelectLoad.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxSelectLoad.Font = new System.Drawing.Font("MS UI Gothic", 15F);
+            this.comboBoxSelectLoad.FormattingEnabled = true;
+            this.comboBoxSelectLoad.Location = new System.Drawing.Point(855, 78);
+            this.comboBoxSelectLoad.Name = "comboBoxSelectLoad";
+            this.comboBoxSelectLoad.Size = new System.Drawing.Size(277, 48);
+            this.comboBoxSelectLoad.TabIndex = 10;
+            // 
+            // bindingSourceBaudRate
+            // 
+            this.bindingSourceBaudRate.DataSource = typeof(AlbaCycle.bauditems);
             // 
             // FormCycle
             // 
@@ -458,8 +466,8 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
             this.ClientSize = new System.Drawing.Size(2538, 1373);
+            this.Controls.Add(this.comboBoxSelectLoad);
             this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.buttonConfig);
             this.Controls.Add(this.textBoxTimer);
             this.Controls.Add(this.groupBoxSerialConfig);
             this.Controls.Add(this.textBoxWatt);
@@ -485,6 +493,7 @@
             this.tabPageGraph.ResumeLayout(false);
             this.tabPageData.ResumeLayout(false);
             this.tabPageData.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceBaudRate)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -508,7 +517,6 @@
         private System.Windows.Forms.ComboBox comboBoxPort;
         private System.Windows.Forms.BindingSource bauditemsBindingSource;
         private System.Windows.Forms.TextBox textBoxTimer;
-        private System.Windows.Forms.Button buttonConfig;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartSpeed;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPageGraph;
@@ -524,6 +532,8 @@
         private System.Windows.Forms.TabPage tabPageData;
         private System.Windows.Forms.TextBox textBoxSerialData;
         private System.Windows.Forms.Button buttonGiveUp;
+        private System.Windows.Forms.ComboBox comboBoxSelectLoad;
+        private System.Windows.Forms.BindingSource bindingSourceBaudRate;
     }
 }
 

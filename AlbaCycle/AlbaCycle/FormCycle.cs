@@ -141,12 +141,6 @@ namespace AlbaCycle {
             chartSpeed.Series["Speed"].Points.Clear();
         }
 
-        //設定画面を開く
-        private void buttonConfig_Click(object sender, EventArgs e) {
-            FormConfig _formConfig = new FormConfig();
-            _formConfig.Show();
-        }
-
         private void FormCycle_FormClosing(object sender, FormClosingEventArgs e) {
             serialPortCycle.Dispose();
             serialPortCycle.Close();

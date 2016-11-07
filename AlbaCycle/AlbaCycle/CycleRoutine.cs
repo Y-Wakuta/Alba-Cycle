@@ -10,14 +10,39 @@ using System.IO;
 /*フロントギア：インナー
  * リア：外から5枚目
  * 回転数：速度 = 85 : 27
- * Hの時は、(ワット数) = 13.209 * (速度) - 60.712
+ * Hの時は、(ワット数) = 0.0081 * (速度) * (速度) + 12.682 * (速度) - 54.568
+ * 5の時は、(ワット数) = 0.0327 * (速度) * (速度) + 11.26 *(速度) - 47.977
+ * 4の時は、(ワット数) = 0.0379 * (速度) * (速度) + 10.691 * (速度) - 45.341
+ * 3の時は、(ワット数) = 0.0526 * (速度) * (速度) + 9.8239 * (速度) - 40.682
+ * 2の時は、(ワット数) = 0.067 * (速度) * (速度) - 7.0775 * (速度) - 31.545
+ * 1の時は、(ワット数) = 0.0668 * (速度) * (速度) - 5.3226 * (速度) -25.045
  */
 
 namespace AlbaCycle {
-   public class CycleRoutine {
-        public double CadenceToWatt(double cadence) {
+    public class CycleRoutine {
+        public double CadenceToWatt(double cadence, int loadFlag) {
             double speed = cadence * (27 / 85);
-            double watt = 13.209 * speed - 60.712;
+            double watt = 0.0;
+            switch (loadFlag) {
+                case 6:
+                    watt = 0.0081 * speed * speed + 12.682 * speed - 54.568;
+                    break;
+                case 5:
+                    watt = 0.0327 * speed * speed + 11.26 * speed - 47.977;
+                    break;
+                case 4:
+                    watt = 0.0379 * speed * speed + 10.691 * speed - 45.341;
+                    break;
+                case 3:
+                    watt = 0.0526 * speed * speed + 9.8239 * speed - 40.682;
+                    break;
+                case 2:
+                    watt = 0.067 * speed * speed - 7.0775 * speed - 31.545;
+                    break;
+                case 1:
+                    watt = 0.0668 * speed * speed - 5.3226 * speed - 25.045;
+                    break;
+            }
             return watt;
         }
         /// <summary>
@@ -28,7 +53,7 @@ namespace AlbaCycle {
         public void writeDatas(List<CycleDatas> data, string path) {
             var sw = new StreamWriter(path, false);
             foreach (var dt in data) {
-                sw.Write("{0},{1},{2},\n,",dt.Cadence,dt.Watt,dt.Speed);
+                sw.Write("{0},{1},{2},\n,", dt.Cadence, dt.Watt, dt.Speed);
             }
             sw.Close();
         }

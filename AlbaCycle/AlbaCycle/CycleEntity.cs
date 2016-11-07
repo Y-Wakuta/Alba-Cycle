@@ -42,4 +42,8 @@ namespace AlbaCycle {
         public string Voltage { get; set; }
 
     }
+
+    public class LoadLevel {
+        
+    }
 }
