@@ -17,16 +17,15 @@ namespace AlbaCycle {
     public partial class FormCycle : Form {
 
         DateTime start = DateTime.Now;
-        Stopwatch sw;
         Stopwatch generalTimer;
-        List<string> saveData = new List<string>();
         List<CycleDatas> _cycleDataList = new List<CycleDatas>();
         CycleRoutine Routine = new CycleRoutine();
-        CycleEntity Entity = new CycleEntity();
         string data = null;
         bool giveupFlag = false;
         Stopwatch FTPTimer;
         Timer eventTimer;
+        double FTPSum = 0.0;
+        int SumCount = 0;
 
         public FormCycle() {
             InitializeComponent();
@@ -154,7 +153,7 @@ namespace AlbaCycle {
         }
 
         private async void serialPortCycle_DataReceived(object sender, SerialDataReceivedEventArgs e) {
-            sw = new Stopwatch();
+            var sw = new Stopwatch();
             sw.Start();
             List<CycleDatas> tempCycleDataList = new List<CycleDatas>();
 
@@ -192,7 +191,7 @@ namespace AlbaCycle {
                 if (datas.Count() == 14) {
                     _cycleData.Voltage = datas[5];
                     _cycleData.Speed = datas[13];
-                    _cycleData.Cadence = (double.Parse(datas[13]) / 6).ToString();
+                    _cycleData.Cadence = (double.Parse(datas[13]) / 6.0).ToString();
                     _cycleData.Watt = Routine.CadenceToWatt((double.Parse(datas[13]) / 6)).ToString();
                     _cycleData.Timer = generalTimer;
                     _cycleDataList.Add(_cycleData);
@@ -275,11 +274,17 @@ namespace AlbaCycle {
             if (FTPTimer.ElapsedMilliseconds / 1000.0 < 55 * 60 || !giveupFlag) {
                 double TimeSecond = FTPTimer.ElapsedMilliseconds / 1000.0;
                 labelTimer.Text = TimeSecond.ToString();
+                try {
+                    FTPSum += double.Parse(textBoxWatt.Text);
+                }catch(Exception) {
+                    return;
+                }
+                SumCount++;
+                labelFTP.Text = ((FTPSum / (double)SumCount) * 0.95).ToString();
                 if (TimeSecond < 10 * 60) {
                     labelPhase.Text = "Warm up";
                 } else if (10 * 60 <= TimeSecond && TimeSecond < 15 * 60) {
                     labelPhase.Text = "Pre Test";
-
                 } else if (15 * 60 <= TimeSecond && TimeSecond < 25 * 60) {
                     labelPhase.Text = "Rest";
                 } else if (25 * 60 <= TimeSecond && TimeSecond < 45 * 60) {
