@@ -19,9 +19,9 @@ using System.IO;
  */
 
 namespace AlbaCycle {
-    public class CycleRoutine {
-        public double CadenceToWatt(double cadence, int loadFlag) {
-            double speed = cadence * (27 / 85);
+    static public class CycleRoutine {
+        static public double CadenceToWatt(double cadence, int loadFlag) {
+            double speed = cadence * (27.0 / 85.0);
             double watt = 0.0;
             switch (loadFlag) {
                 case 6:
@@ -50,12 +50,19 @@ namespace AlbaCycle {
         /// </summary>
         /// <param name="data">配列化していない受信データ</param>
         /// <param name="path"></param>
-        public void writeDatas(List<CycleDatas> data, string path) {
+        static public void writeDatas(List<CycleDatas> data, string path) {
             var sw = new StreamWriter(path, false);
             foreach (var dt in data) {
                 sw.Write("{0},{1},{2},\n,", dt.Cadence, dt.Watt, dt.Speed);
             }
             sw.Close();
+        }
+        //指定した精度の桁に切り下げ
+        public static double ToRoundDown(double dValue, int iDigits) {
+            double dCoef = System.Math.Pow(10, iDigits);
+
+            return dValue > 0 ? System.Math.Floor(dValue * dCoef) / dCoef :
+                                System.Math.Ceiling(dValue * dCoef) / dCoef;
         }
     }
 }

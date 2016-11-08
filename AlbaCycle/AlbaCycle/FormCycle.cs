@@ -12,32 +12,33 @@ using System.IO.Ports;
 using System.IO;
 using System.Diagnostics;
 
+
 namespace AlbaCycle {
 
     public partial class FormCycle : Form {
 
-        DateTime start = DateTime.Now;
         Stopwatch generalTimer;
         List<CycleDatas> _cycleDataList = new List<CycleDatas>();
-        CycleRoutine Routine = new CycleRoutine();
         string data = null;
         bool giveupFlag = false;
         Stopwatch FTPTimer;
-        Timer eventTimer;
+        Timer FTPEventTimer;
         double FTPSum = 0.0;
         int SumCount = 0;
+        int _loadLevel = 6;
+        string Voltage;
 
         public FormCycle() {
             InitializeComponent();
         }
 
         private void FormCycle_Load(object sender, EventArgs e) {
-            MessageBox.Show("フロントディレーラー:インナー\nリアディレーラー:外から5枚目\nローラー負荷:H\nに設定してください。", "設定", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            MessageBox.Show("フロントディレーラー:インナー\nリアディレーラー:外から5枚目\nに設定してください。", "設定", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             buttonConnect.Focus();
 
-            string[] Portlist = SerialPort.GetPortNames();
+            var Portlist = SerialPort.GetPortNames();
 
-            SerialPort _serialport = new SerialPort();
+            var _serialport = new SerialPort();
 
             comboBoxPort.Items.Clear();
 
@@ -90,55 +91,34 @@ namespace AlbaCycle {
 
             #endregion
 
+            //負荷を設定
+            var levelList = new List<LoadLevel>();
+            for (int i = 6; i > 0; i--) {
+                var level = new LoadLevel(i);
+                levelList.Add(level);
+            }
+            bindingSourceLoadLevel.DataSource = levelList;
+            comboBoxSelectLoad.DisplayMember = "loadLevel";
+            comboBoxSelectLoad.SelectedIndex = 1;
+
             buttonStartFTP.Enabled = false;
             buttonFreeRun.Enabled = false;
+            buttonReStart.Enabled = false;
         }
 
         private void comboBoxBaud_TextChanged(object sender, EventArgs e) {
             if (comboBoxBaud.SelectedIndex != -1)
-                serialPortCycle.BaudRate = (int)comboBoxBaud.SelectedValue;
+                serialPortCycle.BaudRate = (int)(comboBoxBaud.SelectedValue);
         }
 
         private void comboBoxBaud_SelectedIndexChanged(object sender, EventArgs e) {
             if (comboBoxBaud.SelectedIndex != -1)
-                serialPortCycle.BaudRate = (int)comboBoxBaud.SelectedValue;
+                serialPortCycle.BaudRate = (int)(comboBoxBaud.SelectedValue);
         }
 
-        /// <summary>
-        /// 受信データに対してグラフを出力します
-        /// </summary>
-        /// <param name="datas">配列化した受信データ</param>
-        /// <param name="i"></param>
-        private void ShowChart(CycleDatas cData) {
-            DateTime end = DateTime.Now;
-            TimeSpan time = end - start;
-            int xvalue = (int)time.TotalSeconds;
-
-            #region グラフ設定
-            if (cData.Cadence != null && cData.Speed != null && cData.Watt != null && cData.Timer != null) {
-                chartWatt.Series["Watt"].Points.AddXY(xvalue, double.Parse(cData.Watt));
-                chartSpeed.Series["Speed"].Points.AddXY(xvalue, double.Parse(cData.Speed));
-                chartCadence.Series["Cadence"].Points.AddXY(xvalue, double.Parse(cData.Cadence));
-
-                chartCadence.ChartAreas[0].AxisX.Maximum = time.TotalSeconds;
-                chartCadence.ChartAreas[0].AxisX.Minimum = time.TotalSeconds - 30;
-
-                chartWatt.ChartAreas[0].AxisX.Maximum = time.TotalSeconds;
-                chartWatt.ChartAreas[0].AxisX.Minimum = time.TotalSeconds - 30;
-
-                chartSpeed.ChartAreas[0].AxisX.Maximum = time.TotalSeconds;
-                chartSpeed.ChartAreas[0].AxisX.Maximum = time.TotalSeconds - 30;
-                #endregion
-            }
-        }
-
-        /// <summary>
-        /// Nextボタンを押したときにグラフをクリアします
-        /// </summary>
-        void ClearChart() {
-            chartWatt.Series["Watt"].Points.Clear();
-            chartCadence.Series["Cadence"].Points.Clear();
-            chartSpeed.Series["Speed"].Points.Clear();
+        private void comboBoxSelectLoad_SelectedIndexChanged(object sender, EventArgs e) {
+            if (comboBoxSelectLoad.SelectedIndex != -1)
+                _loadLevel = ((LoadLevel)(comboBoxSelectLoad.SelectedItem)).loadLevel;
         }
 
         private void FormCycle_FormClosing(object sender, FormClosingEventArgs e) {
@@ -149,7 +129,7 @@ namespace AlbaCycle {
         private async void serialPortCycle_DataReceived(object sender, SerialDataReceivedEventArgs e) {
             var sw = new Stopwatch();
             sw.Start();
-            List<CycleDatas> tempCycleDataList = new List<CycleDatas>();
+            var tempCycleDataList = new List<CycleDatas>();
 
             await Task.Run(() => {
                 try {
@@ -172,21 +152,22 @@ namespace AlbaCycle {
                 data = null;
                 return;
             }
-            string[] tempDataLines = data.Trim().Replace(";\r\n;", "\n").Split('\n');
-            List<string> dataLines = new List<string>();
+            var tempDataLines = data.Trim().Replace(";\r\n;", "\n").Split('\n');
+            var dataLines = new List<string>();
             foreach (var dataMem in tempDataLines) {
                 if (dataMem.Length > 20)
                     dataLines.Add(dataMem);
             }
 
             foreach (var dataLine in dataLines) {
-                CycleDatas _cycleData = new CycleDatas();
-                string[] datas = dataLine.Trim().Split(';');
+                var _cycleData = new CycleDatas();
+                var datas = dataLine.Trim().Split(';');
                 if (datas.Count() == 14) {
                     _cycleData.Voltage = datas[5];
+                    Voltage = datas[5];
+                    _cycleData.Watt = CycleRoutine.CadenceToWatt((double.Parse(datas[13]) / 6.0), _loadLevel).ToString();
                     _cycleData.Speed = datas[13];
                     _cycleData.Cadence = (double.Parse(datas[13]) / 6.0).ToString();
-                    _cycleData.Watt = Routine.CadenceToWatt((double.Parse(datas[13]) / 6)).ToString();
                     _cycleData.Timer = generalTimer;
                     _cycleDataList.Add(_cycleData);
                     tempCycleDataList.Add(_cycleData);
@@ -194,24 +175,6 @@ namespace AlbaCycle {
                 BeginInvoke((MethodInvoker)(() => ShowSerialDatas(data)));
                 BeginInvoke((MethodInvoker)(() => ShowCycleData(_cycleData)));
                 //   BeginInvoke((MethodInvoker)(() => ShowChart(_cycleData)));
-            }
-        }
-
-        private void buttonNext_Click(object sender, EventArgs e) {
-            string path = @"\datas\" + DateTime.Now.ToString("MMddHHmm") + ".csv";
-            Routine.writeDatas(_cycleDataList, path);
-            ClearChart();
-        }
-
-        public void ShowSerialDatas(string _cData) {
-            textBoxSerialData.AppendText(_cData + Environment.NewLine);
-        }
-
-        public void ShowCycleData(CycleDatas cData) {
-            if (cData.Cadence != null && cData.Speed != null && cData.Watt != null && cData.Timer != null) {
-                textBoxCadence.Text = cData.Cadence;
-                textBoxWatt.Text = cData.Watt;
-                textBoxTimer.Text = (cData.Timer.ElapsedMilliseconds / 1000.0).ToString();
             }
         }
 
@@ -236,6 +199,7 @@ namespace AlbaCycle {
             }
             buttonStartFTP.Enabled = true;
             buttonFreeRun.Enabled = true;
+            buttonFreeRun.Focus();
         }
 
         private void buttonClose_Click(object sender, EventArgs e) {
@@ -248,33 +212,58 @@ namespace AlbaCycle {
             }
         }
 
+        private void buttonNext_Click(object sender, EventArgs e) {
+            string path = @"\datas\" + DateTime.Now.ToString("MMddHHmm") + ".csv";
+            CycleRoutine.writeDatas(_cycleDataList, path);
+            ClearChart();
+        }
+
         private void buttonStartFTP_Click(object sender, EventArgs e) {
             giveupFlag = false;
             FTPTimer = new Stopwatch();
             FTPTimer.Start();
-            InitializeTimer();
+            FTPInitializeTimer();
             buttonStartFTP.Enabled = false;
             buttonFreeRun.Enabled = false;
+            buttonReStart.Enabled = true;
+            FTPEventTimer.Tick += new EventHandler(this.OnFTPTick_Timer);
         }
 
-        public void InitializeTimer() {
-            eventTimer = new Timer();
-            eventTimer.Tick += new EventHandler(this.OnTick_Timer);
-            eventTimer.Interval = 500;
-            eventTimer.Start();
+        private void buttonFreeRun_Click(object sender, EventArgs e) {
+            giveupFlag = false;
+            buttonFreeRun.Enabled = false;
+            buttonStartFTP.Enabled = false;
+            buttonReStart.Enabled = true;
+            FTPTimer = new Stopwatch();
+            FTPEventTimer = new Timer();
+            FTPTimer.Start();
+            FTPInitializeTimer();
+            FTPEventTimer.Tick += new EventHandler(this.OnFreeTick_Timer);
         }
 
-        public void OnTick_Timer(object sender, EventArgs e) {
-            if (FTPTimer.ElapsedMilliseconds / 1000.0 < 55 * 60 || !giveupFlag) {
-                double TimeSecond = FTPTimer.ElapsedMilliseconds / 1000.0;
+        private void buttonGiveUp_Click(object sender, EventArgs e) {
+            giveupFlag = true;
+            FTPTimer.Stop();
+            buttonStartFTP.Enabled = true;
+            buttonFreeRun.Enabled = true;
+            FTPEventTimer.Dispose();
+            SumCount = 0;
+            FTPSum = 0;
+            Application.Restart();
+        }
+
+        public void OnFTPTick_Timer(object sender, EventArgs e) {
+            double TimeSecond = FTPTimer.ElapsedMilliseconds / 1000.0;
+            if (TimeSecond < 55 * 60 || !giveupFlag) {
                 labelTimer.Text = TimeSecond.ToString();
+                labelVoltage.Text = CycleRoutine.ToRoundDown((double.Parse(Voltage) / 1000.0), 2).ToString();
                 try {
                     FTPSum += double.Parse(textBoxWatt.Text);
-                }catch(Exception) {
+                } catch (Exception) {
                     return;
                 }
                 SumCount++;
-                labelFTP.Text = ((FTPSum / (double)SumCount) * 0.95).ToString();
+                labelFTP.Text = CycleRoutine.ToRoundDown(((FTPSum / (double)SumCount) * 0.95), 2).ToString();
                 if (TimeSecond < 10 * 60) {
                     labelPhase.Text = "Warm up";
                 } else if (10 * 60 <= TimeSecond && TimeSecond < 15 * 60) {
@@ -288,21 +277,78 @@ namespace AlbaCycle {
                 } else {
                     labelPhase.Text = "Waiting For Start";
                 }
-                System.Threading.Thread.Sleep(50);
             }
         }
 
-        private void buttonFreeRun_Click(object sender, EventArgs e) {
-            giveupFlag = false;
-            buttonFreeRun.Enabled = false;
-            buttonStartFTP.Enabled = false;
+        public void OnFreeTick_Timer(object sender, EventArgs e) {
+            double TimeSecond = FTPTimer.ElapsedMilliseconds / 1000.0;
+            if (TimeSecond < 0.2 * 60 && !giveupFlag) {
+                labelPhase.Text = "FreeRun";
+                labelFtpStatus.Text = "Measuring";
+                labelTimer.Text = TimeSecond.ToString();
+                labelVoltage.Text = CycleRoutine.ToRoundDown((double.Parse(Voltage) / 1000.0), 2).ToString();
+                try {
+                    FTPSum += double.Parse(textBoxWatt.Text);
+                } catch (Exception) {
+                    return;
+                }
+                SumCount++;
+                labelFTP.Text = CycleRoutine.ToRoundDown(((FTPSum / (double)SumCount) * 0.95), 2).ToString();
+            } else {
+                labelFtpStatus.Text = "Confirmed";
+            }
         }
 
-        private void buttonGiveUp_Click(object sender, EventArgs e) {
-            giveupFlag = true;
-            eventTimer.Stop();
-            buttonStartFTP.Enabled = true;
-            buttonFreeRun.Enabled = true;
+        /// <summary>
+        /// 受信データに対してグラフを出力します
+        /// </summary>
+        /// <param name="datas">配列化した受信データ</param>
+        /// <param name="i"></param>
+        private void ShowChart(CycleDatas cData) {
+            var xvalue = generalTimer.ElapsedMilliseconds / 1000.0;
+
+            #region グラフ設定
+            if (cData.Cadence != null && cData.Speed != null && cData.Watt != null && cData.Timer != null) {
+                chartWatt.Series["Watt"].Points.AddXY(xvalue, double.Parse(cData.Watt));
+                chartSpeed.Series["Speed"].Points.AddXY(xvalue, double.Parse(cData.Speed));
+                chartCadence.Series["Cadence"].Points.AddXY(xvalue, double.Parse(cData.Cadence));
+
+                chartCadence.ChartAreas[0].AxisX.Maximum = xvalue;
+                chartCadence.ChartAreas[0].AxisX.Minimum = xvalue - 30;
+
+                chartWatt.ChartAreas[0].AxisX.Maximum = xvalue;
+                chartWatt.ChartAreas[0].AxisX.Minimum = xvalue - 30;
+
+                chartSpeed.ChartAreas[0].AxisX.Maximum = xvalue;
+                chartSpeed.ChartAreas[0].AxisX.Maximum = xvalue - 30;
+                #endregion
+            }
+        }
+
+        /// <summary>
+        /// Nextボタンを押したときにグラフをクリアします
+        /// </summary>
+        void ClearChart() {
+            chartWatt.Series["Watt"].Points.Clear();
+            chartCadence.Series["Cadence"].Points.Clear();
+            chartSpeed.Series["Speed"].Points.Clear();
+        }
+
+        public void FTPInitializeTimer() {
+            FTPEventTimer = new Timer();
+            FTPEventTimer.Interval = 100;
+            FTPEventTimer.Start();
+        }
+
+        public void ShowSerialDatas(string _cData) {
+            textBoxSerialData.AppendText(_cData + Environment.NewLine);
+        }
+
+        public void ShowCycleData(CycleDatas cData) {
+            if (cData.Cadence != null && cData.Speed != null && cData.Watt != null && cData.Timer != null) {
+                textBoxCadence.Text = CycleRoutine.ToRoundDown(double.Parse(cData.Cadence), 1).ToString();
+                textBoxWatt.Text = CycleRoutine.ToRoundDown(double.Parse(cData.Watt), 1).ToString();
+            }
         }
     }
 }

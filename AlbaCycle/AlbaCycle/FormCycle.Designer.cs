@@ -46,17 +46,21 @@
             this.chartWatt = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.serialPortCycle = new System.IO.Ports.SerialPort(this.components);
             this.groupBoxSerialConfig = new System.Windows.Forms.GroupBox();
+            this.comboBoxSelectLoad = new System.Windows.Forms.ComboBox();
+            this.bindingSourceLoadLevel = new System.Windows.Forms.BindingSource(this.components);
             this.buttonNext = new System.Windows.Forms.Button();
             this.buttonClose = new System.Windows.Forms.Button();
             this.buttonConnect = new System.Windows.Forms.Button();
             this.comboBoxBaud = new System.Windows.Forms.ComboBox();
             this.bauditemsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.comboBoxPort = new System.Windows.Forms.ComboBox();
-            this.textBoxTimer = new System.Windows.Forms.TextBox();
             this.chartSpeed = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPageFTP = new System.Windows.Forms.TabPage();
-            this.buttonGiveUp = new System.Windows.Forms.Button();
+            this.labelFtpStatus = new System.Windows.Forms.Label();
+            this.labelVoltage = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.buttonReStart = new System.Windows.Forms.Button();
             this.buttonFreeRun = new System.Windows.Forms.Button();
             this.buttonStartFTP = new System.Windows.Forms.Button();
             this.labelTimer = new System.Windows.Forms.Label();
@@ -68,27 +72,29 @@
             this.tabPageGraph = new System.Windows.Forms.TabPage();
             this.tabPageData = new System.Windows.Forms.TabPage();
             this.textBoxSerialData = new System.Windows.Forms.TextBox();
-            this.comboBoxSelectLoad = new System.Windows.Forms.ComboBox();
-            this.bindingSourceBaudRate = new System.Windows.Forms.BindingSource(this.components);
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.panel1 = new System.Windows.Forms.Panel();
             ((System.ComponentModel.ISupportInitialize)(this.chartCadence)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartWatt)).BeginInit();
             this.groupBoxSerialConfig.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceLoadLevel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bauditemsBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartSpeed)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPageFTP.SuspendLayout();
             this.tabPageGraph.SuspendLayout();
             this.tabPageData.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceBaudRate)).BeginInit();
+            this.groupBox1.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // labelWatt
             // 
             this.labelWatt.AutoSize = true;
-            this.labelWatt.Font = new System.Drawing.Font("メイリオ", 16F);
-            this.labelWatt.Location = new System.Drawing.Point(1617, 69);
+            this.labelWatt.Font = new System.Drawing.Font("メイリオ", 25F);
+            this.labelWatt.Location = new System.Drawing.Point(892, 69);
             this.labelWatt.Name = "labelWatt";
-            this.labelWatt.Size = new System.Drawing.Size(233, 65);
+            this.labelWatt.Size = new System.Drawing.Size(362, 100);
             this.labelWatt.TabIndex = 0;
             this.labelWatt.Text = "ワット数 :";
             // 
@@ -104,29 +110,29 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("メイリオ", 16F);
-            this.label1.Location = new System.Drawing.Point(1138, 61);
+            this.label1.Font = new System.Drawing.Font("メイリオ", 25F);
+            this.label1.Location = new System.Drawing.Point(51, 69);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(190, 65);
+            this.label1.Size = new System.Drawing.Size(295, 100);
             this.label1.TabIndex = 2;
             this.label1.Text = "回転数 :";
             // 
             // textBoxCadence
             // 
-            this.textBoxCadence.Font = new System.Drawing.Font("MS UI Gothic", 35F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.textBoxCadence.Location = new System.Drawing.Point(1334, 40);
+            this.textBoxCadence.Font = new System.Drawing.Font("MS UI Gothic", 70F);
+            this.textBoxCadence.Location = new System.Drawing.Point(406, 24);
             this.textBoxCadence.Name = "textBoxCadence";
             this.textBoxCadence.ReadOnly = true;
-            this.textBoxCadence.Size = new System.Drawing.Size(268, 101);
+            this.textBoxCadence.Size = new System.Drawing.Size(415, 194);
             this.textBoxCadence.TabIndex = 3;
             // 
             // textBoxWatt
             // 
-            this.textBoxWatt.Font = new System.Drawing.Font("MS UI Gothic", 35F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.textBoxWatt.Location = new System.Drawing.Point(1856, 40);
+            this.textBoxWatt.Font = new System.Drawing.Font("MS UI Gothic", 70F);
+            this.textBoxWatt.Location = new System.Drawing.Point(1317, 24);
             this.textBoxWatt.Name = "textBoxWatt";
             this.textBoxWatt.ReadOnly = true;
-            this.textBoxWatt.Size = new System.Drawing.Size(249, 101);
+            this.textBoxWatt.Size = new System.Drawing.Size(579, 194);
             this.textBoxWatt.TabIndex = 4;
             // 
             // chartCadence
@@ -179,27 +185,40 @@
             // groupBoxSerialConfig
             // 
             this.groupBoxSerialConfig.AutoSize = true;
+            this.groupBoxSerialConfig.Controls.Add(this.comboBoxSelectLoad);
             this.groupBoxSerialConfig.Controls.Add(this.buttonNext);
             this.groupBoxSerialConfig.Controls.Add(this.buttonClose);
             this.groupBoxSerialConfig.Controls.Add(this.buttonConnect);
             this.groupBoxSerialConfig.Controls.Add(this.comboBoxBaud);
             this.groupBoxSerialConfig.Controls.Add(this.comboBoxPort);
-            this.groupBoxSerialConfig.Location = new System.Drawing.Point(13, 12);
+            this.groupBoxSerialConfig.Location = new System.Drawing.Point(13, 7);
             this.groupBoxSerialConfig.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.groupBoxSerialConfig.Name = "groupBoxSerialConfig";
             this.groupBoxSerialConfig.Padding = new System.Windows.Forms.Padding(4, 3, 4, 3);
-            this.groupBoxSerialConfig.Size = new System.Drawing.Size(817, 153);
+            this.groupBoxSerialConfig.Size = new System.Drawing.Size(817, 227);
             this.groupBoxSerialConfig.TabIndex = 35;
             this.groupBoxSerialConfig.TabStop = false;
             this.groupBoxSerialConfig.Text = "シリアル設定";
             // 
+            // comboBoxSelectLoad
+            // 
+            this.comboBoxSelectLoad.DataSource = this.bindingSourceLoadLevel;
+            this.comboBoxSelectLoad.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBoxSelectLoad.Font = new System.Drawing.Font("MS UI Gothic", 15F);
+            this.comboBoxSelectLoad.FormattingEnabled = true;
+            this.comboBoxSelectLoad.Location = new System.Drawing.Point(556, 132);
+            this.comboBoxSelectLoad.Name = "comboBoxSelectLoad";
+            this.comboBoxSelectLoad.Size = new System.Drawing.Size(221, 48);
+            this.comboBoxSelectLoad.TabIndex = 10;
+            this.comboBoxSelectLoad.SelectedIndexChanged += new System.EventHandler(this.comboBoxSelectLoad_SelectedIndexChanged);
+            // 
             // buttonNext
             // 
             this.buttonNext.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.buttonNext.Location = new System.Drawing.Point(647, 47);
+            this.buttonNext.Location = new System.Drawing.Point(319, 121);
             this.buttonNext.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonNext.Name = "buttonNext";
-            this.buttonNext.Size = new System.Drawing.Size(159, 76);
+            this.buttonNext.Size = new System.Drawing.Size(214, 76);
             this.buttonNext.TabIndex = 33;
             this.buttonNext.Text = "Next>>";
             this.buttonNext.UseVisualStyleBackColor = true;
@@ -208,10 +227,10 @@
             // buttonClose
             // 
             this.buttonClose.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.buttonClose.Location = new System.Drawing.Point(477, 46);
+            this.buttonClose.Location = new System.Drawing.Point(556, 30);
             this.buttonClose.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonClose.Name = "buttonClose";
-            this.buttonClose.Size = new System.Drawing.Size(162, 76);
+            this.buttonClose.Size = new System.Drawing.Size(221, 76);
             this.buttonClose.TabIndex = 31;
             this.buttonClose.Text = "Close";
             this.buttonClose.UseVisualStyleBackColor = true;
@@ -220,10 +239,10 @@
             // buttonConnect
             // 
             this.buttonConnect.Font = new System.Drawing.Font("Meiryo UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.buttonConnect.Location = new System.Drawing.Point(307, 46);
+            this.buttonConnect.Location = new System.Drawing.Point(319, 30);
             this.buttonConnect.Margin = new System.Windows.Forms.Padding(4, 3, 4, 3);
             this.buttonConnect.Name = "buttonConnect";
-            this.buttonConnect.Size = new System.Drawing.Size(162, 76);
+            this.buttonConnect.Size = new System.Drawing.Size(214, 76);
             this.buttonConnect.TabIndex = 29;
             this.buttonConnect.Text = "Connect";
             this.buttonConnect.UseVisualStyleBackColor = true;
@@ -235,7 +254,7 @@
             this.comboBoxBaud.DisplayMember = "RATE";
             this.comboBoxBaud.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxBaud.FormattingEnabled = true;
-            this.comboBoxBaud.Location = new System.Drawing.Point(7, 91);
+            this.comboBoxBaud.Location = new System.Drawing.Point(6, 121);
             this.comboBoxBaud.Margin = new System.Windows.Forms.Padding(2);
             this.comboBoxBaud.Name = "comboBoxBaud";
             this.comboBoxBaud.Size = new System.Drawing.Size(294, 32);
@@ -246,25 +265,15 @@
             // 
             // comboBoxPort
             // 
-            this.comboBoxPort.DataSource = this.bindingSourceBaudRate;
-            this.comboBoxPort.DisplayMember = "NAME";
+            this.comboBoxPort.DisplayMember = "RATE";
             this.comboBoxPort.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.comboBoxPort.FormattingEnabled = true;
-            this.comboBoxPort.Location = new System.Drawing.Point(7, 43);
+            this.comboBoxPort.Location = new System.Drawing.Point(6, 69);
             this.comboBoxPort.Margin = new System.Windows.Forms.Padding(2);
             this.comboBoxPort.Name = "comboBoxPort";
             this.comboBoxPort.Size = new System.Drawing.Size(294, 32);
             this.comboBoxPort.TabIndex = 2;
             this.comboBoxPort.ValueMember = "RATE";
-            // 
-            // textBoxTimer
-            // 
-            this.textBoxTimer.Font = new System.Drawing.Font("MS UI Gothic", 50F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.textBoxTimer.Location = new System.Drawing.Point(2123, 23);
-            this.textBoxTimer.Name = "textBoxTimer";
-            this.textBoxTimer.ReadOnly = true;
-            this.textBoxTimer.Size = new System.Drawing.Size(413, 141);
-            this.textBoxTimer.TabIndex = 36;
             // 
             // chartSpeed
             // 
@@ -292,16 +301,20 @@
             this.tabControl1.Controls.Add(this.tabPageFTP);
             this.tabControl1.Controls.Add(this.tabPageGraph);
             this.tabControl1.Controls.Add(this.tabPageData);
-            this.tabControl1.Location = new System.Drawing.Point(13, 170);
+            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.tabControl1.Location = new System.Drawing.Point(0, 231);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(2533, 1201);
+            this.tabControl1.Size = new System.Drawing.Size(2765, 1142);
             this.tabControl1.TabIndex = 39;
             // 
             // tabPageFTP
             // 
             this.tabPageFTP.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.tabPageFTP.Controls.Add(this.buttonGiveUp);
+            this.tabPageFTP.Controls.Add(this.labelFtpStatus);
+            this.tabPageFTP.Controls.Add(this.labelVoltage);
+            this.tabPageFTP.Controls.Add(this.label4);
+            this.tabPageFTP.Controls.Add(this.buttonReStart);
             this.tabPageFTP.Controls.Add(this.buttonFreeRun);
             this.tabPageFTP.Controls.Add(this.buttonStartFTP);
             this.tabPageFTP.Controls.Add(this.labelTimer);
@@ -313,25 +326,56 @@
             this.tabPageFTP.Location = new System.Drawing.Point(8, 39);
             this.tabPageFTP.Name = "tabPageFTP";
             this.tabPageFTP.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageFTP.Size = new System.Drawing.Size(2517, 1154);
+            this.tabPageFTP.Size = new System.Drawing.Size(2749, 1095);
             this.tabPageFTP.TabIndex = 1;
             this.tabPageFTP.Text = "FTP";
             // 
-            // buttonGiveUp
+            // labelFtpStatus
             // 
-            this.buttonGiveUp.Font = new System.Drawing.Font("メイリオ", 28.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.buttonGiveUp.Location = new System.Drawing.Point(1549, 668);
-            this.buttonGiveUp.Name = "buttonGiveUp";
-            this.buttonGiveUp.Size = new System.Drawing.Size(671, 198);
-            this.buttonGiveUp.TabIndex = 9;
-            this.buttonGiveUp.Text = "Give Up";
-            this.buttonGiveUp.UseVisualStyleBackColor = true;
-            this.buttonGiveUp.Click += new System.EventHandler(this.buttonGiveUp_Click);
+            this.labelFtpStatus.AutoSize = true;
+            this.labelFtpStatus.Font = new System.Drawing.Font("メイリオ", 60F);
+            this.labelFtpStatus.Location = new System.Drawing.Point(1616, 30);
+            this.labelFtpStatus.Name = "labelFtpStatus";
+            this.labelFtpStatus.Size = new System.Drawing.Size(715, 240);
+            this.labelFtpStatus.TabIndex = 12;
+            this.labelFtpStatus.Text = "STATUS";
+            // 
+            // labelVoltage
+            // 
+            this.labelVoltage.AutoSize = true;
+            this.labelVoltage.Font = new System.Drawing.Font("メイリオ", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.labelVoltage.ForeColor = System.Drawing.Color.Coral;
+            this.labelVoltage.Location = new System.Drawing.Point(502, 923);
+            this.labelVoltage.Name = "labelVoltage";
+            this.labelVoltage.Size = new System.Drawing.Size(408, 144);
+            this.labelVoltage.TabIndex = 11;
+            this.labelVoltage.Text = "Waiting";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Font = new System.Drawing.Font("メイリオ", 34.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.label4.Location = new System.Drawing.Point(59, 923);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(437, 140);
+            this.label4.TabIndex = 10;
+            this.label4.Text = "Voltage:";
+            // 
+            // buttonReStart
+            // 
+            this.buttonReStart.Font = new System.Drawing.Font("メイリオ", 28.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.buttonReStart.Location = new System.Drawing.Point(1562, 689);
+            this.buttonReStart.Name = "buttonReStart";
+            this.buttonReStart.Size = new System.Drawing.Size(671, 198);
+            this.buttonReStart.TabIndex = 9;
+            this.buttonReStart.Text = "RESTART";
+            this.buttonReStart.UseVisualStyleBackColor = true;
+            this.buttonReStart.Click += new System.EventHandler(this.buttonGiveUp_Click);
             // 
             // buttonFreeRun
             // 
             this.buttonFreeRun.Font = new System.Drawing.Font("メイリオ", 28.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.buttonFreeRun.Location = new System.Drawing.Point(824, 668);
+            this.buttonFreeRun.Location = new System.Drawing.Point(829, 689);
             this.buttonFreeRun.Name = "buttonFreeRun";
             this.buttonFreeRun.Size = new System.Drawing.Size(671, 198);
             this.buttonFreeRun.TabIndex = 8;
@@ -342,7 +386,7 @@
             // buttonStartFTP
             // 
             this.buttonStartFTP.Font = new System.Drawing.Font("メイリオ", 28.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.buttonStartFTP.Location = new System.Drawing.Point(83, 668);
+            this.buttonStartFTP.Location = new System.Drawing.Point(83, 689);
             this.buttonStartFTP.Name = "buttonStartFTP";
             this.buttonStartFTP.Size = new System.Drawing.Size(671, 198);
             this.buttonStartFTP.TabIndex = 7;
@@ -353,30 +397,30 @@
             // labelTimer
             // 
             this.labelTimer.AutoSize = true;
-            this.labelTimer.Font = new System.Drawing.Font("メイリオ", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.labelTimer.Font = new System.Drawing.Font("メイリオ", 80F);
             this.labelTimer.ForeColor = System.Drawing.Color.Coral;
-            this.labelTimer.Location = new System.Drawing.Point(366, 177);
+            this.labelTimer.Location = new System.Drawing.Point(352, 310);
             this.labelTimer.Name = "labelTimer";
-            this.labelTimer.Size = new System.Drawing.Size(854, 144);
+            this.labelTimer.Size = new System.Drawing.Size(914, 321);
             this.labelTimer.TabIndex = 6;
-            this.labelTimer.Text = "Waiting For Start";
+            this.labelTimer.Text = "Waiting";
             // 
             // labelFTP
             // 
             this.labelFTP.AutoSize = true;
-            this.labelFTP.Font = new System.Drawing.Font("メイリオ", 72F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.labelFTP.Font = new System.Drawing.Font("メイリオ", 110F);
             this.labelFTP.ForeColor = System.Drawing.Color.Coral;
-            this.labelFTP.Location = new System.Drawing.Point(389, 358);
+            this.labelFTP.Location = new System.Drawing.Point(1333, 254);
             this.labelFTP.Name = "labelFTP";
-            this.labelFTP.Size = new System.Drawing.Size(1711, 288);
+            this.labelFTP.Size = new System.Drawing.Size(1257, 441);
             this.labelFTP.TabIndex = 5;
-            this.labelFTP.Text = "Waiting For Start";
+            this.labelFTP.Text = "Waiting";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("メイリオ", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label5.Location = new System.Drawing.Point(51, 426);
+            this.label5.Location = new System.Drawing.Point(1255, 64);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(367, 192);
             this.label5.TabIndex = 4;
@@ -385,31 +429,31 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("メイリオ", 28.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label3.Location = new System.Drawing.Point(114, 199);
+            this.label3.Font = new System.Drawing.Font("メイリオ", 35F);
+            this.label3.Location = new System.Drawing.Point(12, 393);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(266, 113);
+            this.label3.Size = new System.Drawing.Size(334, 141);
             this.label3.TabIndex = 2;
             this.label3.Text = "TIME:";
             // 
             // labelPhase
             // 
             this.labelPhase.AutoSize = true;
-            this.labelPhase.Font = new System.Drawing.Font("メイリオ", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.labelPhase.Font = new System.Drawing.Font("メイリオ", 47F);
             this.labelPhase.ForeColor = System.Drawing.Color.Coral;
-            this.labelPhase.Location = new System.Drawing.Point(366, 22);
+            this.labelPhase.Location = new System.Drawing.Point(468, 67);
             this.labelPhase.Name = "labelPhase";
-            this.labelPhase.Size = new System.Drawing.Size(854, 144);
+            this.labelPhase.Size = new System.Drawing.Size(539, 189);
             this.labelPhase.TabIndex = 1;
-            this.labelPhase.Text = "Waiting For Start";
+            this.labelPhase.Text = "Waiting";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("メイリオ", 28.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label2.Location = new System.Drawing.Point(54, 44);
+            this.label2.Font = new System.Drawing.Font("メイリオ", 35F);
+            this.label2.Location = new System.Drawing.Point(28, 101);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(326, 113);
+            this.label2.Size = new System.Drawing.Size(408, 141);
             this.label2.TabIndex = 0;
             this.label2.Text = "PHASE:";
             // 
@@ -422,7 +466,7 @@
             this.tabPageGraph.Location = new System.Drawing.Point(8, 39);
             this.tabPageGraph.Name = "tabPageGraph";
             this.tabPageGraph.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageGraph.Size = new System.Drawing.Size(2517, 1154);
+            this.tabPageGraph.Size = new System.Drawing.Size(2749, 1095);
             this.tabPageGraph.TabIndex = 0;
             this.tabPageGraph.Text = "Graphs";
             // 
@@ -432,7 +476,7 @@
             this.tabPageData.Controls.Add(this.textBoxSerialData);
             this.tabPageData.Location = new System.Drawing.Point(8, 39);
             this.tabPageData.Name = "tabPageData";
-            this.tabPageData.Size = new System.Drawing.Size(2517, 1154);
+            this.tabPageData.Size = new System.Drawing.Size(2749, 1095);
             this.tabPageData.TabIndex = 2;
             this.tabPageData.Text = "Data";
             // 
@@ -446,35 +490,38 @@
             this.textBoxSerialData.Size = new System.Drawing.Size(2064, 1063);
             this.textBoxSerialData.TabIndex = 0;
             // 
-            // comboBoxSelectLoad
+            // groupBox1
             // 
-            this.comboBoxSelectLoad.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.comboBoxSelectLoad.Font = new System.Drawing.Font("MS UI Gothic", 15F);
-            this.comboBoxSelectLoad.FormattingEnabled = true;
-            this.comboBoxSelectLoad.Location = new System.Drawing.Point(855, 78);
-            this.comboBoxSelectLoad.Name = "comboBoxSelectLoad";
-            this.comboBoxSelectLoad.Size = new System.Drawing.Size(277, 48);
-            this.comboBoxSelectLoad.TabIndex = 10;
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.textBoxCadence);
+            this.groupBox1.Controls.Add(this.labelWatt);
+            this.groupBox1.Controls.Add(this.textBoxWatt);
+            this.groupBox1.Location = new System.Drawing.Point(837, 7);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(1916, 227);
+            this.groupBox1.TabIndex = 40;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "ローラー情報";
             // 
-            // bindingSourceBaudRate
+            // panel1
             // 
-            this.bindingSourceBaudRate.DataSource = typeof(AlbaCycle.bauditems);
+            this.panel1.Controls.Add(this.groupBoxSerialConfig);
+            this.panel1.Controls.Add(this.groupBox1);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(0, 0);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(2765, 231);
+            this.panel1.TabIndex = 37;
             // 
             // FormCycle
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(2538, 1373);
-            this.Controls.Add(this.comboBoxSelectLoad);
+            this.ClientSize = new System.Drawing.Size(2765, 1373);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.tabControl1);
-            this.Controls.Add(this.textBoxTimer);
-            this.Controls.Add(this.groupBoxSerialConfig);
-            this.Controls.Add(this.textBoxWatt);
-            this.Controls.Add(this.textBoxCadence);
-            this.Controls.Add(this.label1);
             this.Controls.Add(this.labelCadence);
-            this.Controls.Add(this.labelWatt);
             this.ForeColor = System.Drawing.Color.DodgerBlue;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "FormCycle";
@@ -485,6 +532,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.chartCadence)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartWatt)).EndInit();
             this.groupBoxSerialConfig.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceLoadLevel)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bauditemsBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartSpeed)).EndInit();
             this.tabControl1.ResumeLayout(false);
@@ -493,7 +541,10 @@
             this.tabPageGraph.ResumeLayout(false);
             this.tabPageData.ResumeLayout(false);
             this.tabPageData.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.bindingSourceBaudRate)).EndInit();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -516,7 +567,6 @@
         private System.Windows.Forms.ComboBox comboBoxBaud;
         private System.Windows.Forms.ComboBox comboBoxPort;
         private System.Windows.Forms.BindingSource bauditemsBindingSource;
-        private System.Windows.Forms.TextBox textBoxTimer;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartSpeed;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPageGraph;
@@ -531,9 +581,14 @@
         private System.Windows.Forms.Label labelFTP;
         private System.Windows.Forms.TabPage tabPageData;
         private System.Windows.Forms.TextBox textBoxSerialData;
-        private System.Windows.Forms.Button buttonGiveUp;
+        private System.Windows.Forms.Button buttonReStart;
         private System.Windows.Forms.ComboBox comboBoxSelectLoad;
-        private System.Windows.Forms.BindingSource bindingSourceBaudRate;
+        private System.Windows.Forms.BindingSource bindingSourceLoadLevel;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Label labelVoltage;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label labelFtpStatus;
     }
 }
 

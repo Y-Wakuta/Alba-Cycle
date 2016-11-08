@@ -12,7 +12,7 @@ namespace AlbaCycle {
     /// マクロを定義
     /// </summary>
     static public class Constants {
-       static public int minDataPoolAmount = 400;
+       static public int minDataPoolAmount = 150;
        static public int maxDataPoolAmount = 5000;
     }
 
@@ -44,6 +44,9 @@ namespace AlbaCycle {
     }
 
     public class LoadLevel {
-        
+       public int loadLevel { get; set; }
+       public LoadLevel(int value) {
+            loadLevel = value;
+        }
     }
 }
