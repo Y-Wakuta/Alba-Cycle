@@ -12,8 +12,8 @@ namespace AlbaCycle {
     /// マクロを定義
     /// </summary>
     static public class Constants {
-       static public int minDataPoolAmount = 150;
-       static public int maxDataPoolAmount = 5000;
+       static public int minDataPoolAmount = 250;
+       static public int maxDataPoolAmount = 1000;
     }
 
     /// <summary>

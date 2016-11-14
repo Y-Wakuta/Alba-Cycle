@@ -55,37 +55,27 @@
             this.bauditemsBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.comboBoxPort = new System.Windows.Forms.ComboBox();
             this.chartSpeed = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.tabControl1 = new System.Windows.Forms.TabControl();
-            this.tabPageFTP = new System.Windows.Forms.TabPage();
-            this.labelFtpStatus = new System.Windows.Forms.Label();
             this.labelVoltage = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.buttonReStart = new System.Windows.Forms.Button();
             this.buttonFreeRun = new System.Windows.Forms.Button();
-            this.buttonStartFTP = new System.Windows.Forms.Button();
             this.labelTimer = new System.Windows.Forms.Label();
-            this.labelFTP = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.labelPhase = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
-            this.tabPageGraph = new System.Windows.Forms.TabPage();
-            this.tabPageData = new System.Windows.Forms.TabPage();
-            this.textBoxSerialData = new System.Windows.Forms.TextBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.labelFtpStatus = new System.Windows.Forms.Label();
+            this.labelFTP = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.chartCadence)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartWatt)).BeginInit();
             this.groupBoxSerialConfig.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceLoadLevel)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.bauditemsBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartSpeed)).BeginInit();
-            this.tabControl1.SuspendLayout();
-            this.tabPageFTP.SuspendLayout();
-            this.tabPageGraph.SuspendLayout();
-            this.tabPageData.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // labelWatt
@@ -141,7 +131,7 @@
             this.chartCadence.ChartAreas.Add(chartArea1);
             legend1.Name = "Legend1";
             this.chartCadence.Legends.Add(legend1);
-            this.chartCadence.Location = new System.Drawing.Point(12, 6);
+            this.chartCadence.Location = new System.Drawing.Point(6, 506);
             this.chartCadence.Name = "chartCadence";
             series1.BorderWidth = 4;
             series1.ChartArea = "ChartArea1";
@@ -150,7 +140,7 @@
             series1.Legend = "Legend1";
             series1.Name = "Cadence";
             this.chartCadence.Series.Add(series1);
-            this.chartCadence.Size = new System.Drawing.Size(1240, 599);
+            this.chartCadence.Size = new System.Drawing.Size(1274, 624);
             this.chartCadence.TabIndex = 5;
             this.chartCadence.Text = "chart1";
             title1.Name = "ケイデンス";
@@ -162,7 +152,7 @@
             this.chartWatt.ChartAreas.Add(chartArea2);
             legend2.Name = "Legend1";
             this.chartWatt.Legends.Add(legend2);
-            this.chartWatt.Location = new System.Drawing.Point(12, 611);
+            this.chartWatt.Location = new System.Drawing.Point(1286, 271);
             this.chartWatt.Name = "chartWatt";
             series2.BorderWidth = 4;
             series2.ChartArea = "ChartArea1";
@@ -171,7 +161,7 @@
             series2.Legend = "Legend1";
             series2.Name = "Watt";
             this.chartWatt.Series.Add(series2);
-            this.chartWatt.Size = new System.Drawing.Size(2490, 540);
+            this.chartWatt.Size = new System.Drawing.Size(1447, 423);
             this.chartWatt.TabIndex = 6;
             this.chartWatt.Text = "chart";
             title2.Name = "Watt";
@@ -179,7 +169,7 @@
             // 
             // serialPortCycle
             // 
-            this.serialPortCycle.ReadBufferSize = 15000000;
+            this.serialPortCycle.ReadBufferSize = 1500000000;
             this.serialPortCycle.DataReceived += new System.IO.Ports.SerialDataReceivedEventHandler(this.serialPortCycle_DataReceived);
             // 
             // groupBoxSerialConfig
@@ -281,7 +271,7 @@
             this.chartSpeed.ChartAreas.Add(chartArea3);
             legend3.Name = "Legend1";
             this.chartSpeed.Legends.Add(legend3);
-            this.chartSpeed.Location = new System.Drawing.Point(1265, 6);
+            this.chartSpeed.Location = new System.Drawing.Point(1286, 705);
             this.chartSpeed.Name = "chartSpeed";
             series3.BorderWidth = 4;
             series3.ChartArea = "ChartArea1";
@@ -290,83 +280,39 @@
             series3.Legend = "Legend1";
             series3.Name = "Speed";
             this.chartSpeed.Series.Add(series3);
-            this.chartSpeed.Size = new System.Drawing.Size(1237, 599);
+            this.chartSpeed.Size = new System.Drawing.Size(996, 425);
             this.chartSpeed.TabIndex = 38;
             this.chartSpeed.Text = "chart1";
             title3.Name = "ケイデンス";
             this.chartSpeed.Titles.Add(title3);
             // 
-            // tabControl1
-            // 
-            this.tabControl1.Controls.Add(this.tabPageFTP);
-            this.tabControl1.Controls.Add(this.tabPageGraph);
-            this.tabControl1.Controls.Add(this.tabPageData);
-            this.tabControl1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.tabControl1.Location = new System.Drawing.Point(0, 231);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(2765, 1142);
-            this.tabControl1.TabIndex = 39;
-            // 
-            // tabPageFTP
-            // 
-            this.tabPageFTP.BackColor = System.Drawing.SystemColors.ActiveBorder;
-            this.tabPageFTP.Controls.Add(this.labelFtpStatus);
-            this.tabPageFTP.Controls.Add(this.labelVoltage);
-            this.tabPageFTP.Controls.Add(this.label4);
-            this.tabPageFTP.Controls.Add(this.buttonReStart);
-            this.tabPageFTP.Controls.Add(this.buttonFreeRun);
-            this.tabPageFTP.Controls.Add(this.buttonStartFTP);
-            this.tabPageFTP.Controls.Add(this.labelTimer);
-            this.tabPageFTP.Controls.Add(this.labelFTP);
-            this.tabPageFTP.Controls.Add(this.label5);
-            this.tabPageFTP.Controls.Add(this.label3);
-            this.tabPageFTP.Controls.Add(this.labelPhase);
-            this.tabPageFTP.Controls.Add(this.label2);
-            this.tabPageFTP.Location = new System.Drawing.Point(8, 39);
-            this.tabPageFTP.Name = "tabPageFTP";
-            this.tabPageFTP.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageFTP.Size = new System.Drawing.Size(2749, 1095);
-            this.tabPageFTP.TabIndex = 1;
-            this.tabPageFTP.Text = "FTP";
-            // 
-            // labelFtpStatus
-            // 
-            this.labelFtpStatus.AutoSize = true;
-            this.labelFtpStatus.Font = new System.Drawing.Font("メイリオ", 60F);
-            this.labelFtpStatus.Location = new System.Drawing.Point(1616, 30);
-            this.labelFtpStatus.Name = "labelFtpStatus";
-            this.labelFtpStatus.Size = new System.Drawing.Size(715, 240);
-            this.labelFtpStatus.TabIndex = 12;
-            this.labelFtpStatus.Text = "STATUS";
-            // 
             // labelVoltage
             // 
             this.labelVoltage.AutoSize = true;
-            this.labelVoltage.Font = new System.Drawing.Font("メイリオ", 36F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
+            this.labelVoltage.Font = new System.Drawing.Font("メイリオ", 27F);
             this.labelVoltage.ForeColor = System.Drawing.Color.Coral;
-            this.labelVoltage.Location = new System.Drawing.Point(502, 923);
+            this.labelVoltage.Location = new System.Drawing.Point(2375, 725);
             this.labelVoltage.Name = "labelVoltage";
-            this.labelVoltage.Size = new System.Drawing.Size(408, 144);
+            this.labelVoltage.Size = new System.Drawing.Size(308, 108);
             this.labelVoltage.TabIndex = 11;
             this.labelVoltage.Text = "Waiting";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("メイリオ", 34.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label4.Location = new System.Drawing.Point(59, 923);
+            this.label4.Font = new System.Drawing.Font("メイリオ", 22F);
+            this.label4.Location = new System.Drawing.Point(2284, 738);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(437, 140);
+            this.label4.Size = new System.Drawing.Size(101, 89);
             this.label4.TabIndex = 10;
-            this.label4.Text = "Voltage:";
+            this.label4.Text = "V:";
             // 
             // buttonReStart
             // 
-            this.buttonReStart.Font = new System.Drawing.Font("メイリオ", 28.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.buttonReStart.Location = new System.Drawing.Point(1562, 689);
+            this.buttonReStart.Font = new System.Drawing.Font("メイリオ", 20F);
+            this.buttonReStart.Location = new System.Drawing.Point(2309, 999);
             this.buttonReStart.Name = "buttonReStart";
-            this.buttonReStart.Size = new System.Drawing.Size(671, 198);
+            this.buttonReStart.Size = new System.Drawing.Size(383, 106);
             this.buttonReStart.TabIndex = 9;
             this.buttonReStart.Text = "RESTART";
             this.buttonReStart.UseVisualStyleBackColor = true;
@@ -374,55 +320,33 @@
             // 
             // buttonFreeRun
             // 
-            this.buttonFreeRun.Font = new System.Drawing.Font("メイリオ", 28.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.buttonFreeRun.Location = new System.Drawing.Point(829, 689);
+            this.buttonFreeRun.Font = new System.Drawing.Font("メイリオ", 20F);
+            this.buttonFreeRun.Location = new System.Drawing.Point(2309, 855);
             this.buttonFreeRun.Name = "buttonFreeRun";
-            this.buttonFreeRun.Size = new System.Drawing.Size(671, 198);
+            this.buttonFreeRun.Size = new System.Drawing.Size(383, 106);
             this.buttonFreeRun.TabIndex = 8;
             this.buttonFreeRun.Text = "FREE RUN";
             this.buttonFreeRun.UseVisualStyleBackColor = true;
             this.buttonFreeRun.Click += new System.EventHandler(this.buttonFreeRun_Click);
             // 
-            // buttonStartFTP
-            // 
-            this.buttonStartFTP.Font = new System.Drawing.Font("メイリオ", 28.125F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.buttonStartFTP.Location = new System.Drawing.Point(83, 689);
-            this.buttonStartFTP.Name = "buttonStartFTP";
-            this.buttonStartFTP.Size = new System.Drawing.Size(671, 198);
-            this.buttonStartFTP.TabIndex = 7;
-            this.buttonStartFTP.Text = "START FTP";
-            this.buttonStartFTP.UseVisualStyleBackColor = true;
-            this.buttonStartFTP.Click += new System.EventHandler(this.buttonStartFTP_Click);
-            // 
             // labelTimer
             // 
             this.labelTimer.AutoSize = true;
-            this.labelTimer.Font = new System.Drawing.Font("メイリオ", 80F);
+            this.labelTimer.Font = new System.Drawing.Font("メイリオ", 73F);
             this.labelTimer.ForeColor = System.Drawing.Color.Coral;
-            this.labelTimer.Location = new System.Drawing.Point(352, 310);
+            this.labelTimer.Location = new System.Drawing.Point(1730, -11);
             this.labelTimer.Name = "labelTimer";
-            this.labelTimer.Size = new System.Drawing.Size(914, 321);
+            this.labelTimer.Size = new System.Drawing.Size(835, 293);
             this.labelTimer.TabIndex = 6;
             this.labelTimer.Text = "Waiting";
-            // 
-            // labelFTP
-            // 
-            this.labelFTP.AutoSize = true;
-            this.labelFTP.Font = new System.Drawing.Font("メイリオ", 110F);
-            this.labelFTP.ForeColor = System.Drawing.Color.Coral;
-            this.labelFTP.Location = new System.Drawing.Point(1333, 254);
-            this.labelFTP.Name = "labelFTP";
-            this.labelFTP.Size = new System.Drawing.Size(1257, 441);
-            this.labelFTP.TabIndex = 5;
-            this.labelFTP.Text = "Waiting";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("メイリオ", 48F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(128)));
-            this.label5.Location = new System.Drawing.Point(1255, 64);
+            this.label5.Font = new System.Drawing.Font("メイリオ", 35F);
+            this.label5.Location = new System.Drawing.Point(50, 27);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(367, 192);
+            this.label5.Size = new System.Drawing.Size(271, 141);
             this.label5.TabIndex = 4;
             this.label5.Text = "FTP:";
             // 
@@ -430,65 +354,11 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Font = new System.Drawing.Font("メイリオ", 35F);
-            this.label3.Location = new System.Drawing.Point(12, 393);
+            this.label3.Location = new System.Drawing.Point(1418, 59);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(334, 141);
             this.label3.TabIndex = 2;
             this.label3.Text = "TIME:";
-            // 
-            // labelPhase
-            // 
-            this.labelPhase.AutoSize = true;
-            this.labelPhase.Font = new System.Drawing.Font("メイリオ", 47F);
-            this.labelPhase.ForeColor = System.Drawing.Color.Coral;
-            this.labelPhase.Location = new System.Drawing.Point(468, 67);
-            this.labelPhase.Name = "labelPhase";
-            this.labelPhase.Size = new System.Drawing.Size(539, 189);
-            this.labelPhase.TabIndex = 1;
-            this.labelPhase.Text = "Waiting";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Font = new System.Drawing.Font("メイリオ", 35F);
-            this.label2.Location = new System.Drawing.Point(28, 101);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(408, 141);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "PHASE:";
-            // 
-            // tabPageGraph
-            // 
-            this.tabPageGraph.BackColor = System.Drawing.Color.Gainsboro;
-            this.tabPageGraph.Controls.Add(this.chartCadence);
-            this.tabPageGraph.Controls.Add(this.chartSpeed);
-            this.tabPageGraph.Controls.Add(this.chartWatt);
-            this.tabPageGraph.Location = new System.Drawing.Point(8, 39);
-            this.tabPageGraph.Name = "tabPageGraph";
-            this.tabPageGraph.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPageGraph.Size = new System.Drawing.Size(2749, 1095);
-            this.tabPageGraph.TabIndex = 0;
-            this.tabPageGraph.Text = "Graphs";
-            // 
-            // tabPageData
-            // 
-            this.tabPageData.BackColor = System.Drawing.Color.DarkGray;
-            this.tabPageData.Controls.Add(this.textBoxSerialData);
-            this.tabPageData.Location = new System.Drawing.Point(8, 39);
-            this.tabPageData.Name = "tabPageData";
-            this.tabPageData.Size = new System.Drawing.Size(2749, 1095);
-            this.tabPageData.TabIndex = 2;
-            this.tabPageData.Text = "Data";
-            // 
-            // textBoxSerialData
-            // 
-            this.textBoxSerialData.Location = new System.Drawing.Point(52, 44);
-            this.textBoxSerialData.Multiline = true;
-            this.textBoxSerialData.Name = "textBoxSerialData";
-            this.textBoxSerialData.ReadOnly = true;
-            this.textBoxSerialData.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.textBoxSerialData.Size = new System.Drawing.Size(2064, 1063);
-            this.textBoxSerialData.TabIndex = 0;
             // 
             // groupBox1
             // 
@@ -505,22 +375,65 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.groupBox2);
             this.panel1.Controls.Add(this.groupBoxSerialConfig);
             this.panel1.Controls.Add(this.groupBox1);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(2765, 231);
+            this.panel1.Size = new System.Drawing.Size(2548, 1373);
             this.panel1.TabIndex = 37;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.label5);
+            this.groupBox2.Controls.Add(this.buttonReStart);
+            this.groupBox2.Controls.Add(this.labelVoltage);
+            this.groupBox2.Controls.Add(this.buttonFreeRun);
+            this.groupBox2.Controls.Add(this.label4);
+            this.groupBox2.Controls.Add(this.chartWatt);
+            this.groupBox2.Controls.Add(this.labelFtpStatus);
+            this.groupBox2.Controls.Add(this.chartSpeed);
+            this.groupBox2.Controls.Add(this.label3);
+            this.groupBox2.Controls.Add(this.chartCadence);
+            this.groupBox2.Controls.Add(this.labelTimer);
+            this.groupBox2.Controls.Add(this.labelFTP);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.groupBox2.Location = new System.Drawing.Point(0, 240);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(2548, 1133);
+            this.groupBox2.TabIndex = 41;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "データ";
+            // 
+            // labelFtpStatus
+            // 
+            this.labelFtpStatus.AutoSize = true;
+            this.labelFtpStatus.Font = new System.Drawing.Font("メイリオ", 40F);
+            this.labelFtpStatus.Location = new System.Drawing.Point(327, 27);
+            this.labelFtpStatus.Name = "labelFtpStatus";
+            this.labelFtpStatus.Size = new System.Drawing.Size(478, 160);
+            this.labelFtpStatus.TabIndex = 12;
+            this.labelFtpStatus.Text = "STATUS";
+            // 
+            // labelFTP
+            // 
+            this.labelFTP.AutoSize = true;
+            this.labelFTP.Font = new System.Drawing.Font("メイリオ", 83F);
+            this.labelFTP.ForeColor = System.Drawing.Color.Coral;
+            this.labelFTP.Location = new System.Drawing.Point(214, 168);
+            this.labelFTP.Name = "labelFTP";
+            this.labelFTP.Size = new System.Drawing.Size(948, 333);
+            this.labelFTP.TabIndex = 5;
+            this.labelFTP.Text = "Waiting";
             // 
             // FormCycle
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(13F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.Control;
-            this.ClientSize = new System.Drawing.Size(2765, 1373);
+            this.ClientSize = new System.Drawing.Size(2548, 1373);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.labelCadence);
             this.ForeColor = System.Drawing.Color.DodgerBlue;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
@@ -535,16 +448,12 @@
             ((System.ComponentModel.ISupportInitialize)(this.bindingSourceLoadLevel)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.bauditemsBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartSpeed)).EndInit();
-            this.tabControl1.ResumeLayout(false);
-            this.tabPageFTP.ResumeLayout(false);
-            this.tabPageFTP.PerformLayout();
-            this.tabPageGraph.ResumeLayout(false);
-            this.tabPageData.ResumeLayout(false);
-            this.tabPageData.PerformLayout();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -568,19 +477,10 @@
         private System.Windows.Forms.ComboBox comboBoxPort;
         private System.Windows.Forms.BindingSource bauditemsBindingSource;
         private System.Windows.Forms.DataVisualization.Charting.Chart chartSpeed;
-        private System.Windows.Forms.TabControl tabControl1;
-        private System.Windows.Forms.TabPage tabPageGraph;
-        private System.Windows.Forms.TabPage tabPageFTP;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label labelPhase;
-        private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button buttonFreeRun;
-        private System.Windows.Forms.Button buttonStartFTP;
         private System.Windows.Forms.Label labelTimer;
-        private System.Windows.Forms.Label labelFTP;
-        private System.Windows.Forms.TabPage tabPageData;
-        private System.Windows.Forms.TextBox textBoxSerialData;
         private System.Windows.Forms.Button buttonReStart;
         private System.Windows.Forms.ComboBox comboBoxSelectLoad;
         private System.Windows.Forms.BindingSource bindingSourceLoadLevel;
@@ -589,6 +489,8 @@
         private System.Windows.Forms.Label labelVoltage;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label labelFtpStatus;
+        private System.Windows.Forms.Label labelFTP;
+        private System.Windows.Forms.GroupBox groupBox2;
     }
 }
 

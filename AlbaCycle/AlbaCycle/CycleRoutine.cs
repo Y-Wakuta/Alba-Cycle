@@ -37,10 +37,10 @@ namespace AlbaCycle {
                     watt = 0.0526 * speed * speed + 9.8239 * speed - 40.682;
                     break;
                 case 2:
-                    watt = 0.067 * speed * speed - 7.0775 * speed - 31.545;
+                    watt = 0.067 * speed * speed + 7.0775 * speed - 31.545;
                     break;
                 case 1:
-                    watt = 0.0668 * speed * speed - 5.3226 * speed - 25.045;
+                    watt = 0.0668 * speed * speed + 5.3226 * speed - 25.045;
                     break;
             }
             return watt;
