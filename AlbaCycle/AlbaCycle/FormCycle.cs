@@ -148,7 +148,7 @@ namespace AlbaCycle {
 
             //データが短すぎるもしくは長すぎる場合は、returnしてdataの中身を調整します。
 
-        
+            #region filter
             if(data == null) {
                 return;
             }
@@ -158,6 +158,8 @@ namespace AlbaCycle {
                 data = null;
                 return;
             }
+            #endregion
+
             var tempDataLines = data.Trim().Replace(";\r\n;", "\n").Split('\n');
             var dataLines = new List<string>();
             foreach (var dataMem in tempDataLines) {
@@ -295,14 +297,20 @@ namespace AlbaCycle {
                 return;
             }
 
-            chartCadence.ChartAreas[0].AxisX.Maximum = xvalue;
-            chartCadence.ChartAreas[0].AxisX.Minimum = xvalue - 30;
+            chartCadence.ChartAreas[0].AxisX.Maximum = double.NaN;
+            chartCadence.ChartAreas[0].AxisX.Minimum = double.NaN;
+            chartCadence.ChartAreas[0].AxisY.Maximum = double.NaN;
+            chartCadence.ChartAreas[0].AxisY.Minimum = double.NaN;
 
-            chartWatt.ChartAreas[0].AxisX.Maximum = xvalue;
-            chartWatt.ChartAreas[0].AxisX.Minimum = xvalue - 30;
+            chartWatt.ChartAreas[0].AxisX.Maximum = double.NaN;
+            chartWatt.ChartAreas[0].AxisX.Minimum = double.NaN;
+            chartWatt.ChartAreas[0].AxisY.Maximum = double.NaN;
+            chartWatt.ChartAreas[0].AxisY.Minimum = double.NaN;
 
-            chartSpeed.ChartAreas[0].AxisX.Maximum = xvalue;
-            chartSpeed.ChartAreas[0].AxisX.Maximum = xvalue - 30;
+            chartSpeed.ChartAreas[0].AxisX.Maximum = double.NaN;
+            chartSpeed.ChartAreas[0].AxisX.Minimum = double.NaN;
+            chartSpeed.ChartAreas[0].AxisY.Maximum = double.NaN;
+            chartSpeed.ChartAreas[0].AxisY.Minimum = double.NaN;
             #endregion
 
         }
