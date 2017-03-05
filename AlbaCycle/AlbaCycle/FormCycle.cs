@@ -13,27 +13,37 @@ using System.IO;
 using System.Diagnostics;
 
 
-namespace AlbaCycle {
+namespace AlbaCycle
+{
 
-    public partial class FormCycle : Form {
+    delegate void ChartHandler(CycleDatas cData);
+
+    public partial class FormCycle : Form
+    {
 
         Stopwatch generalTimer;
         List<CycleDatas> _cycleDataList = new List<CycleDatas>();
-        List<CycleDatas> cycleChartDataList = new List<CycleDatas>();
+        CycleDatas chartData = new CycleDatas();
         string data = null;
         bool giveupFlag = false;
         Stopwatch FTPTimer;
+        Stopwatch TabataTimer;
         Timer FTPEventTimer;
+        Timer TabataEventTimer;
         double FTPSum = 0.0;
-        int SumCount = 0;
+        double SumCount = 0.0;
         int _loadLevel = 6;
         string Voltage;
+        int IntervalCounter = 0;
+        Boolean BeepFlag = true;
 
-        public FormCycle() {
+        public FormCycle()
+        {
             InitializeComponent();
         }
 
-        private void FormCycle_Load(object sender, EventArgs e) {
+        private void FormCycle_Load(object sender, EventArgs e)
+        {
             MessageBox.Show("フロントディレーラー:インナー\nリアディレーラー:外から5枚目\nに設定してください。", "設定", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             buttonConnect.Focus();
 
@@ -48,11 +58,15 @@ namespace AlbaCycle {
 
             if (comboBoxPort.Items.Count == 0)
                 comboBoxPort.Items.Add("利用可能なシリアルポートは存在しません。");
-            else if (comboBoxPort.Items.Count > 0) {
+            else if (comboBoxPort.Items.Count > 0)
+            {
                 comboBoxPort.SelectedIndex = 0;
-                try {
+                try
+                {
                     serialPortCycle.PortName = comboBoxPort.SelectedItem.ToString();
-                } catch (Exception exc) {
+                }
+                catch (Exception exc)
+                {
                     MessageBox.Show(exc.Message);
                 }
 
@@ -94,7 +108,8 @@ namespace AlbaCycle {
 
             //負荷を設定
             var levelList = new List<LoadLevel>();
-            for (int i = 6; i > 0; i--) {
+            for (int i = 6; i > 0; i--)
+            {
                 var level = new LoadLevel(i);
                 levelList.Add(level);
             }
@@ -107,35 +122,42 @@ namespace AlbaCycle {
 
         }
 
-        private void comboBoxBaud_TextChanged(object sender, EventArgs e) {
+        private void comboBoxBaud_TextChanged(object sender, EventArgs e)
+        {
             if (comboBoxBaud.SelectedIndex != -1)
                 serialPortCycle.BaudRate = (int)(comboBoxBaud.SelectedValue);
         }
 
-        private void comboBoxBaud_SelectedIndexChanged(object sender, EventArgs e) {
+        private void comboBoxBaud_SelectedIndexChanged(object sender, EventArgs e)
+        {
             if (comboBoxBaud.SelectedIndex != -1)
                 serialPortCycle.BaudRate = (int)(comboBoxBaud.SelectedValue);
         }
 
-        private void comboBoxSelectLoad_SelectedIndexChanged(object sender, EventArgs e) {
+        private void comboBoxSelectLoad_SelectedIndexChanged(object sender, EventArgs e)
+        {
             if (comboBoxSelectLoad.SelectedIndex != -1)
                 _loadLevel = ((LoadLevel)(comboBoxSelectLoad.SelectedItem)).loadLevel;
         }
 
-        private void FormCycle_FormClosing(object sender, FormClosingEventArgs e) {
+        private void FormCycle_FormClosing(object sender, FormClosingEventArgs e)
+        {
             serialPortCycle.Dispose();
             serialPortCycle.Close();
         }
 
-        private async void serialPortCycle_DataReceived(object sender, SerialDataReceivedEventArgs e) {
+        private async void serialPortCycle_DataReceived(object sender, SerialDataReceivedEventArgs e)
+        {
             var sw = new Stopwatch();
             sw.Start();
-            var tempCycleDataList = new List<CycleDatas>();
-
-            await Task.Run(() => {
-                try {
+            await Task.Run(() =>
+            {
+                try
+                {
                     data += serialPortCycle.ReadExisting();
-                } catch (Exception) {
+                }
+                catch (Exception)
+                {
                     return;
                 }
             });
@@ -143,18 +165,22 @@ namespace AlbaCycle {
             sw.Stop();
 
             //受信に時間がかかりすぎた場合はbufferを削除します。（いらないかも）
-            if (sw.ElapsedMilliseconds > 100)
+            if (sw.ElapsedMilliseconds > 500)
                 serialPortCycle.DiscardInBuffer();
 
             //データが短すぎるもしくは長すぎる場合は、returnしてdataの中身を調整します。
 
             #region filter
-            if(data == null) {
+            if (data == null)
+            {
                 return;
             }
-            else if (data.Length < Constants.minDataPoolAmount) {
+            else if (data.Length < Constants.minDataPoolAmount)
+            {
                 return;
-            } else if (data.Length > Constants.maxDataPoolAmount) {
+            }
+            else if (data.Length > Constants.maxDataPoolAmount)
+            {
                 data = null;
                 return;
             }
@@ -162,52 +188,65 @@ namespace AlbaCycle {
 
             var tempDataLines = data.Trim().Replace(";\r\n;", "\n").Split('\n');
             var dataLines = new List<string>();
-            foreach (var dataMem in tempDataLines) {
+            foreach (var dataMem in tempDataLines)
+            {
+
                 if (dataMem.Length > 20)
                     dataLines.Add(dataMem);
             }
-            try {
-                foreach (var dataLine in dataLines) {
-                    var _cycleData = new CycleDatas();
+            try
+            {
+                foreach (var dataLine in dataLines)
+                {
                     var datas = dataLine.Trim().Split(';');
-                    foreach (var oneData in datas) {
-                        if (oneData == null)
+                    foreach (var oneData in datas)
+                    {
+                        if (String.IsNullOrEmpty(oneData))
                             return;
                     }
 
-                    if (datas.Count() == 14) {
+                    if (datas.Count() == 14)
+                    {
+                        var _cycleData = new CycleDatas();
                         _cycleData.Voltage = datas[5];
                         Voltage = datas[5];
                         _cycleData.Watt = CycleRoutine.CadenceToWatt((-double.Parse(datas[13]) / 6.0), _loadLevel).ToString();
-                        _cycleData.Speed = datas[13];
+                        _cycleData.Speed = (-double.Parse(datas[13])).ToString();
                         _cycleData.Cadence = (-double.Parse(datas[13]) / 6.0).ToString();
                         _cycleData.Timer = generalTimer;
                         _cycleDataList.Add(_cycleData);
-                        tempCycleDataList.Add(_cycleData);
-                        cycleChartDataList.Add(_cycleData);
                         BeginInvoke((MethodInvoker)(() => ShowCycleData(_cycleData)));
+                        BeginInvoke(new ChartHandler(ShowChart), _cycleData);
                     }
                 }
-            } catch (Exception) {
+            }
+            catch (Exception)
+            {
                 return;
             }
         }
 
-        private void buttonConnect_Click(object sender, EventArgs e) {
+        private void buttonConnect_Click(object sender, EventArgs e)
+        {
 
-            if (serialPortCycle.IsOpen == false) {
+            if (serialPortCycle.IsOpen == false)
+            {
                 generalTimer = new Stopwatch();
                 generalTimer.Start();
-                try {
+                try
+                {
                     serialPortCycle.Open();
                     serialPortCycle.DataReceived += new SerialDataReceivedEventHandler(serialPortCycle_DataReceived);
-                } catch (Exception) {
+                }
+                catch (Exception)
+                {
                     MessageBox.Show("利用可能なシリアルポートがありません");
                 }
                 serialPortCycle.DtrEnable = true;
                 serialPortCycle.RtsEnable = true;
             }
-            if (serialPortCycle.IsOpen == true) {
+            if (serialPortCycle.IsOpen == true)
+            {
                 buttonConnect.Enabled = false;
                 buttonClose.Enabled = true;
                 buttonNext.Enabled = false;
@@ -216,8 +255,10 @@ namespace AlbaCycle {
             }
         }
 
-        private void buttonClose_Click(object sender, EventArgs e) {
-            if (serialPortCycle.IsOpen == true) {
+        private void buttonClose_Click(object sender, EventArgs e)
+        {
+            if (serialPortCycle.IsOpen == true)
+            {
                 serialPortCycle.DiscardInBuffer();
                 serialPortCycle.Close();
                 buttonConnect.Enabled = true;
@@ -226,13 +267,15 @@ namespace AlbaCycle {
             }
         }
 
-        private void buttonNext_Click(object sender, EventArgs e) {
+        private void buttonNext_Click(object sender, EventArgs e)
+        {
             string path = @"\datas\" + DateTime.Now.ToString("MMddHHmm") + ".csv";
             CycleRoutine.writeDatas(_cycleDataList, path);
             ClearChart();
         }
 
-        private void buttonFreeRun_Click(object sender, EventArgs e) {
+        private void buttonFreeRun_Click(object sender, EventArgs e)
+        {
             giveupFlag = false;
             buttonFreeRun.Enabled = false;
             buttonReStart.Enabled = true;
@@ -243,7 +286,20 @@ namespace AlbaCycle {
             FTPEventTimer.Tick += new EventHandler(this.OnFreeTick_Timer);
         }
 
-        private void buttonGiveUp_Click(object sender, EventArgs e) {
+        private void buttonTabata_Click(object sender, EventArgs e)
+        {
+            giveupFlag = false;
+            buttonTabata.Enabled = false;
+            buttonReStart.Enabled = true;
+            TabataTimer = new Stopwatch();
+            TabataEventTimer = new Timer();
+            TabataTimer.Start();
+            TabataInitializeTimer();
+            TabataEventTimer.Tick += new EventHandler(this.OnTabataTick_Timer);
+        }
+
+        private void buttonGiveUp_Click(object sender, EventArgs e)
+        {
             giveupFlag = true;
             FTPTimer.Stop();
             buttonFreeRun.Enabled = true;
@@ -253,31 +309,86 @@ namespace AlbaCycle {
             Application.Restart();
         }
 
-        public void OnFreeTick_Timer(object sender, EventArgs e) {
+        public void OnFreeTick_Timer(object sender, EventArgs e)
+        {
             double TimeSecond = FTPTimer.ElapsedMilliseconds / 1000.0;
-            if (TimeSecond < 20 * 60 && !giveupFlag) {
+            if (TimeSecond < 20 * 60 && !giveupFlag)
+            {
                 labelFtpStatus.Text = "Measuring";
                 labelTimer.Text = TimeSecond.ToString();
-                labelVoltage.Text = CycleRoutine.ToRoundDown((double.Parse(Voltage) / 1000.0), 2).ToString();
-                try {
+                labelVoltage.Text = CycleRoutine.ToRoundDown((double.Parse(Voltage) / 1000.0), 7).ToString();
+                try
+                {
                     FTPSum += double.Parse(textBoxWatt.Text);
-                } catch (Exception) {
+                    SumCount = SumCount + 1.0;
+                }
+                catch (Exception)
+                {
                     return;
                 }
-                SumCount++;
-                labelFTP.Text = CycleRoutine.ToRoundDown(((FTPSum / (double)SumCount) * 0.95), 2).ToString();
-            } else {
+                labelFTP.Text = CycleRoutine.ToRoundDown(((FTPSum / SumCount) * 0.95), 2).ToString();
+            }
+            else
+            {
                 labelFtpStatus.Text = "Confirmed";
             }
+        }
 
-            try {
-                foreach (var cycle in cycleChartDataList) {
-                    BeginInvoke((MethodInvoker)(() => ShowChart(cycle)));
-                }
-            } catch (Exception) {
-                return;
+        public void OnTabataTick_Timer(object sender, EventArgs e)
+        {
+            double TimeSecond = TabataTimer.ElapsedMilliseconds / 1000.0;
+
+            if (IntervalCounter > 7)
+            {
+                IntervalCounter = 0;
+                labelFtpStatus.Text = "Completed";
+
+                TabataTimer.Stop();
             }
-            cycleChartDataList.Clear();
+            if (TimeSecond < 20 + IntervalCounter * 30 && !giveupFlag)
+            {
+                if (BeepFlag)
+                {
+                    System.Media.SystemSounds.Beep.Play();
+                    BeepFlag = !BeepFlag;
+                }
+                labelFtpStatus.Text = "Full Power";
+                labelTimer.Text = TimeSecond.ToString();
+                labelVoltage.Text = CycleRoutine.ToRoundDown((double.Parse(Voltage) / 1000.0), 7).ToString();
+                try
+                {
+                    FTPSum += double.Parse(textBoxWatt.Text);
+                    SumCount = SumCount + 1.0;
+                }
+                catch (Exception)
+                {
+                    return;
+                }
+                labelFTP.Text = CycleRoutine.ToRoundDown(((FTPSum / SumCount) * 0.95), 2).ToString();
+            }
+            else if (TimeSecond < 30 + IntervalCounter * 30 && !giveupFlag)
+            {
+                if (!BeepFlag)
+                {
+                    System.Media.SystemSounds.Beep.Play();
+                    BeepFlag = !BeepFlag;
+                }
+                labelFtpStatus.Text = "Rest";
+                labelTimer.Text = TimeSecond.ToString();
+                labelVoltage.Text = CycleRoutine.ToRoundDown((double.Parse(Voltage) / 1000.0), 7).ToString();
+                try
+                {
+                    FTPSum += double.Parse(textBoxWatt.Text);
+                    SumCount = SumCount + 1.0;
+                }
+                catch (Exception)
+                {
+                    return;
+                }
+                labelFTP.Text = CycleRoutine.ToRoundDown(((FTPSum / SumCount) * 0.95), 2).ToString();
+            }
+            else
+                IntervalCounter++;
         }
 
         /// <summary>
@@ -285,15 +396,19 @@ namespace AlbaCycle {
         /// </summary>
         /// <param name="datas">配列化した受信データ</param>
         /// <param name="i"></param>
-        private void ShowChart(CycleDatas cData) {
+        private void ShowChart(CycleDatas cDatas)
+        {
             var xvalue = generalTimer.ElapsedMilliseconds / 1000.0;
 
             #region グラフ設定
-            try {
-                chartWatt.Series["Watt"].Points.AddXY(xvalue, double.Parse(cData.Watt));
-                chartSpeed.Series["Speed"].Points.AddXY(xvalue, double.Parse(cData.Speed));
-                chartCadence.Series["Cadence"].Points.AddXY(xvalue, double.Parse(cData.Cadence));
-            } catch (Exception) {
+            try
+            {
+                chartWatt.Series["Watt"].Points.AddXY(xvalue, double.Parse(cDatas.Watt));
+                chartSpeed.Series["Speed"].Points.AddXY(xvalue, double.Parse(cDatas.Speed));
+                chartCadence.Series["Cadence"].Points.AddXY(xvalue, double.Parse(cDatas.Cadence));
+            }
+            catch (Exception)
+            {
                 return;
             }
 
@@ -312,26 +427,36 @@ namespace AlbaCycle {
             chartSpeed.ChartAreas[0].AxisY.Maximum = double.NaN;
             chartSpeed.ChartAreas[0].AxisY.Minimum = double.NaN;
             #endregion
-
         }
 
         /// <summary>
         /// Nextボタンを押したときにグラフをクリアします
         /// </summary>
-        void ClearChart() {
+        void ClearChart()
+        {
             chartWatt.Series["Watt"].Points.Clear();
             chartCadence.Series["Cadence"].Points.Clear();
             chartSpeed.Series["Speed"].Points.Clear();
         }
 
-        public void FTPInitializeTimer() {
+        public void FTPInitializeTimer()
+        {
             FTPEventTimer = new Timer();
             FTPEventTimer.Interval = 200;
             FTPEventTimer.Start();
         }
 
-        public void ShowCycleData(CycleDatas cData) {
-            if (cData.Cadence != null && cData.Speed != null && cData.Watt != null && cData.Timer != null) {
+        public void TabataInitializeTimer()
+        {
+            TabataEventTimer = new Timer();
+            TabataEventTimer.Interval = 200;
+            TabataEventTimer.Start();
+        }
+
+        public void ShowCycleData(CycleDatas cData)
+        {
+            if (cData.Cadence != null && cData.Speed != null && cData.Watt != null && cData.Timer != null)
+            {
                 textBoxCadence.Text = CycleRoutine.ToRoundDown(double.Parse(cData.Cadence), 1).ToString();
                 textBoxWatt.Text = CycleRoutine.ToRoundDown(double.Parse(cData.Watt), 1).ToString();
             }
