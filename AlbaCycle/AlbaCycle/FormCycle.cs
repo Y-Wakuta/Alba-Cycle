@@ -165,25 +165,29 @@ namespace AlbaCycle
             sw.Stop();
 
             //受信に時間がかかりすぎた場合はbufferを削除します。（いらないかも）
-            if (sw.ElapsedMilliseconds > 500)
-                serialPortCycle.DiscardInBuffer();
+            if (sw.ElapsedMilliseconds > 5000)
+          //      serialPortCycle.DiscardInBuffer();
 
             //データが短すぎるもしくは長すぎる場合は、returnしてdataの中身を調整します。
 
             #region filter
-            if (data == null)
+            try
             {
-                return;
+                if (data == null)
+                {
+                    return;
+                }
+                else if (data.Length < Constants.minDataPoolAmount)
+                {
+                    return;
+                }
+                else if (data.Length > Constants.maxDataPoolAmount)
+                {
+                    data = null;
+                    return;
+                }
             }
-            else if (data.Length < Constants.minDataPoolAmount)
-            {
-                return;
-            }
-            else if (data.Length > Constants.maxDataPoolAmount)
-            {
-                data = null;
-                return;
-            }
+            catch (Exception ex) { }
             #endregion
 
             var tempDataLines = data.Trim().Replace(";\r\n;", "\n").Split('\n');
@@ -458,7 +462,7 @@ namespace AlbaCycle
             if (cData.Cadence != null && cData.Speed != null && cData.Watt != null && cData.Timer != null)
             {
                 textBoxCadence.Text = CycleRoutine.ToRoundDown(double.Parse(cData.Cadence), 1).ToString();
-                textBoxWatt.Text = CycleRoutine.ToRoundDown(double.Parse(cData.Watt), 1).ToString();
+                textBoxWatt.Text = CycleRoutine.ToRoundDown(double.Parse(cData.Watt) / 2.25, 1).ToString();
             }
         }
     }

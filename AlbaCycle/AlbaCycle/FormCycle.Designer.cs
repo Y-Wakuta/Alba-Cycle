@@ -102,7 +102,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("メイリオ", 25F);
-            this.label1.Location = new System.Drawing.Point(43, 60);
+            this.label1.Location = new System.Drawing.Point(6, 60);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(260, 89);
             this.label1.TabIndex = 2;
@@ -110,11 +110,11 @@
             // 
             // textBoxCadence
             // 
-            this.textBoxCadence.Font = new System.Drawing.Font("MS UI Gothic", 70F);
-            this.textBoxCadence.Location = new System.Drawing.Point(344, 21);
+            this.textBoxCadence.Font = new System.Drawing.Font("MS UI Gothic", 75F);
+            this.textBoxCadence.Location = new System.Drawing.Point(290, 21);
             this.textBoxCadence.Name = "textBoxCadence";
             this.textBoxCadence.ReadOnly = true;
-            this.textBoxCadence.Size = new System.Drawing.Size(352, 171);
+            this.textBoxCadence.Size = new System.Drawing.Size(459, 182);
             this.textBoxCadence.TabIndex = 3;
             // 
             // textBoxWatt
